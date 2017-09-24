@@ -1,4 +1,3 @@
-
 # ユーティリティ / ライブラリ
 
 
@@ -76,8 +75,7 @@ G
 
 ## ダウンロード
 
-
-ver 0.01 (2017/08/14) : [Download](./utilities/grape-utility-string.js)
+準備中
 
 ## 使用方法（共通）
 
@@ -86,21 +84,21 @@ ver 0.01 (2017/08/14) : [Download](./utilities/grape-utility-string.js)
 
 例：
 
-    &lt;script src="./grape-utility-string.js"&gt;&lt;/script&gt;
-    &lt;script type="text/javascript"&gt;
+    <script src="./grape-utility-string.js"></script>
+    <script type="text/javascript">
     
     // 自動的に変数 $ustr が定義されます。
-    $ustr.capitalize( "hello" );   // -&gt; "Hello"
+    $ustr.capitalize( "hello" );   // -> "Hello"
     
     // 任意の変数に割り当てることもできます。
     var foo = new $UStr();
-    foo.capitalize( "world" );    // -&gt; "World"
+    foo.capitalize( "world" );    // -> "World"
     
     // インスタンス生成時に文字列を設定し、メソッドチェーンを使用することもできます。
     var bar = new $UStr( "utility" );
-    bar.capitalize.center( 15, '-' );  // -&gt; "----Utility----"
+    bar.capitalize.center( 15, '-' );  // -> "----Utility----"
     
-    &lt;/script&gt;
+    </script>
 
 
 ## 文字列
@@ -207,7 +205,7 @@ ret :
 例：
 
     $ustr.capitalize( "capitalize" );
-    &gt; "Capitalize"
+    > "Capitalize"
 
 
 _関連：[casecmp](#grape-utility-string-casecmp)、[toLowerCase](#grape-utility-string-toLowerCase)、[toUpperCase](#grape-utility-string-toUpperCase)_
@@ -238,9 +236,9 @@ ret : (0)
 例：
 
     $ustr.casecmp( "abc", "Abc" );
-    &gt; 0
+    > 0
     $ustr.casecmp( "abc", "def" );
-    &gt; -1
+    > -1
           
 
 _関連：[capitalize](#grape-utility-string-capitalize)、[toLowerCase](#grape-utility-string-toLowerCase)、[toUpperCase](#grape-utility-string-toUpperCase)_
@@ -271,9 +269,9 @@ ret :
 例：
 
     $ustr.center( "center", 10 );
-    &gt; "  center  "
+    > "  center  "
     $ustr.center( "center", 15, "-*" );
-    &gt; "-*-*center-*-*-"
+    > "-*-*center-*-*-"
 
 
 
@@ -590,15 +588,15 @@ ret :
 例：
 
     $ustr.downto( "d", "a" );
-    &gt; [ "d", "c", "b", "a" ]
+    > [ "d", "c", "b", "a" ]
     
     $ustr.upto( "b0b", "a9x", function( str ){ console.log(str) } );
-    &gt; "b0b"
-    &gt; "b0a"
-    &gt; "a9z"
-    &gt; "a9y"
-    &gt; "a9x"
-    &gt; [ "b0b", "b0a", "a9z", "a9y", "a9x" ]
+    > "b0b"
+    > "b0a"
+    > "a9z"
+    > "a9y"
+    > "a9x"
+    > [ "b0b", "b0a", "a9z", "a9y", "a9x" ]
 
 
 _関連：[ante](#grape-utility-string-ante)、[prev](#grape-utility-string-prev)、[upto](#grape-utility-string-upto)_
@@ -627,8 +625,8 @@ fnc : 1
     $ustr.each( "abc\ndef", function(){ 
     console.log( this ) 
     } );
-    &gt; "abc"
-    &gt; "def"
+    > "abc"
+    > "def"
 
 
 _本メソッドは、[eachLine](#grape-utility-string-eachLine)、[lines](#grape-utility-string-lines)の別名です。
@@ -658,9 +656,9 @@ fnc : 1byte
     $ustr.eachByte( "abc", function(){ 
     console.log( this ) 
     } );
-    &gt; 0x61
-    &gt; 0x62
-    &gt; 0x63
+    > 0x61
+    > 0x62
+    > 0x63
 
 
 _関連：[byteSize](#grape-utility-string-byteSize)、[each](#grape-utility-string-each)、[eachChar](#grape-utility-string-eachChar)、[toByteArray](#grape-utility-string-toByteArray)、[charCodeAt](#grape-utility-string-charCodeAt)_
@@ -690,9 +688,9 @@ fnc : 1
     $ustr.eachChar( "abc", function(){ 
     console.log( this ) 
     } );
-    &gt; "a"
-    &gt; "b"
-    &gt; "c"
+    > "a"
+    > "b"
+    > "c"
 
 
 _関連：[each](#grape-utility-string-each)、[eachByte](#grape-utility-string-eachByte)、[charAt](#grape-utility-string-charAt)_
@@ -778,11 +776,11 @@ ret :
 例：
 
     $ustr.findBlock( 'abc"def"ghi' );
-    &gt; [ 'def' ]
+    > [ 'def' ]
     $ustr.findBlock( 'ab"cd""e\"fg"hi', '"', true, true );
-    &gt; [ 'cd"e"fg' ]
-    $ustr.findBlock( "abc&lt;def&gt;ghi&lt;jkl&gt;", "&lt;&gt;", false, false );
-    &gt; [ "def", "jkl" ]
+    > [ 'cd"e"fg' ]
+    $ustr.findBlock( "abc<def>ghi<jkl>", "<>", false, false );
+    > [ "def", "jkl" ]
 
 
 <a name="grape-utility-string-findEmail"></a>
@@ -976,7 +974,7 @@ ret :
 例：
 
     $ustr.findWord( "This is commonFunctions" );
-    &gt; [ "This", "is", "common", "Functions" ]
+    > [ "This", "is", "common", "Functions" ]
 
 
 
@@ -1120,11 +1118,11 @@ ret :
 例：
 
     $ustr.insert( "aaa", 0, "_bbb_" );
-    &gt; "_bbb_aaa"
+    > "_bbb_aaa"
     $ustr.insert( "aaa", 1, "_bbb_" );
-    &gt; "a_bbb_aa"
+    > "a_bbb_aa"
     $ustr.insert( "aaa", -1, "_bbb_" );
-    &gt; "aaa_bbb_"
+    > "aaa_bbb_"
 
 <a name="grape-utility-string-isBlank"></a>
 ### isBlank
@@ -1176,7 +1174,7 @@ ret : str
 例：
 
     $ustr.isEndWith( "abc,def", "def" );
-    &gt; true
+    > true
 
 
 _関連：[isStartWith](#grape-utility-string-isStartWith)、[isInclude](#grape-utility-string-isInclude)_
@@ -1206,7 +1204,7 @@ ret : str
 例：
 
     $ustr.isInclude( "abc,def", "[\w]+" );
-    &gt; true
+    > true
 
 
 _関連：[isEndWith](#grape-utility-string-isEndWith)、[isStartWith](#grape-utility-string-isStartWith)、[index](#grape-utility-string-index)_
@@ -1236,7 +1234,7 @@ ret : str
 例：
 
     $ustr.isStartWith( "abc,def", "abc" );
-    &gt; true
+    > true
 
 
 _関連：[isInclude](#grape-utility-string-isInclude)、[isEndWith](#grape-utility-string-isEndWith)_
@@ -1314,9 +1312,9 @@ ret :
 例：
 
     $ustr.ljust( "left", 10 );
-    &gt; "left      "
+    > "left      "
     $ustr.ljust( "left", 15, "-*" );
-    &gt; "left-*-*-*-*-*-"
+    > "left-*-*-*-*-*-"
 
 <a name="grape-utility-string-lstrip"></a>
 ### lstrip
@@ -1451,15 +1449,15 @@ ret :
 例：
 
     $ustr.next( "1" );
-    &gt; "2"
+    > "2"
     $ustr.next( "2" );
-    &gt; "3"
+    > "3"
     $ustr.next( "9" );
-    &gt; "10"
+    > "10"
     $ustr.next( "a" );
-    &gt; "b"
+    > "b"
     $ustr.next( "ZZ" );
-    &gt; "AAA"
+    > "AAA"
 
 
 _関連：[upto](#grape-utility-string-upto)_
@@ -1516,9 +1514,9 @@ ret :
 例：
 
     $ustr.padding( "-", 5 );
-    &gt; "-----"
+    > "-----"
     $ustr.padding( "-*", 5 );
-    &gt; "-*-*-"
+    > "-*-*-"
 
 
 _本メソッドは、[fill](#grape-utility-string-fill)の別名です。_
@@ -1559,12 +1557,12 @@ CSVの解析結果を2次元配列で返します。
 例：
 
     $ustr.parseCsv( '"col1", "col2", "col3"\n1,2,3' );
-    &gt; [ 
+    > [ 
     [ "col1", "col2", "col3" ],
     [ 1     , 2     , 3      ] 
     ]
     $ustr.parseCsv( '"col1",, ""\n1,2', ",", true );
-    &gt; [ 
+    > [ 
     [ "col1", null,   ""   ],
     [ 1     , 2     , null ] 
     ]
@@ -1673,11 +1671,11 @@ ret :
 例：
 
     $ustr.partition( "abcdef", "cd" );
-    &gt; [ "ab", "cd", "ef" ]
+    > [ "ab", "cd", "ef" ]
     $ustr.partition( "abcdef", "[fdc]" );
-    &gt; [ "ab", "c", "def" ]
+    > [ "ab", "c", "def" ]
     $ustr.partition( "abcdef", "CD" );
-    &gt; [ "abcdef", "", "" ]
+    > [ "abcdef", "", "" ]
 
 
 _関連：[rpartition](#grape-utility-string-rpartition)_
@@ -1708,15 +1706,15 @@ ret :
 例：
 
     $ustr.prev( "2" );
-    &gt; "1"
+    > "1"
     $ustr.next( "1" );
-    &gt; "0"
+    > "0"
     $ustr.next( "10" );
-    &gt; "9"
+    > "9"
     $ustr.next( "b" );
-    &gt; "a"
+    > "a"
     $ustr.next( "AA" );
-    &gt; "Z"
+    > "Z"
 
 
 _関連：[downto](#grape-utility-string-downto)、[prev](#grape-utility-string-prev)、[succ](#grape-utility-string-succ)、[upto](#grape-utility-string-upto)_
@@ -1860,9 +1858,9 @@ pad : (option)
 例：
 
     $ustr.rjust( "right", 10 );
-    &gt; "     right"
+    > "     right"
     $ustr.rjust( "right", 15, "-*" );
-    &gt; "-*-*-*-*-*right"
+    > "-*-*-*-*-*right"
 
 <a name="grape-utility-string-rpartition"></a>
 ### rpartition
@@ -1891,11 +1889,11 @@ ret :
 例：
 
     $ustr.rpartition( "abcdef", "cd" );
-    &gt; [ "ab", "cd", "ef" ]
+    > [ "ab", "cd", "ef" ]
     $ustr.rpartition( "abcdef", "[fdc]" );
-    &gt; [ "abcde", "f", "" ]
+    > [ "abcde", "f", "" ]
     $ustr.partition( "abcdef", "CD" );
-    &gt; [ "", "", "abcdef" ]
+    > [ "", "", "abcdef" ]
 
 
 _関連：[partition](#grape-utility-string-partition)_
@@ -1949,11 +1947,11 @@ ret :
 例：
 
     $ustr.scan( "hello world!", "o" );
-    &gt; [ "o", "o" ]
+    > [ "o", "o" ]
     $ustr.scan( "hello world!", "([\w]+)" );
-    &gt; [ [ "hello" ], [ "world" ] ]
+    > [ [ "hello" ], [ "world" ] ]
     $ustr.scan( "foo:bar, baz:qux", "([\w]+):([\w]+)" );
-    &gt; [ [ "foo", "bar" ], [ "baz", "qux" ] ]
+    > [ [ "foo", "bar" ], [ "baz", "qux" ] ]
 
 
 <a name="grape-utility-string-search"></a>
@@ -2015,9 +2013,9 @@ ret :
 例：
 
     $ustr.setByte( "hello world", 1, 0x45 );
-    &gt; "hEllo world"
+    > "hEllo world"
     $ustr.setByte( "hello world", -3, 0x52 );
-    &gt; "hello woRld"
+    > "hello woRld"
 
 
 _関連：[byteSize](#grape-utility-string-byteSize)、[eachByte](#grape-utility-string-eachByte)、[getByte](#grape-utility-string-getByte)、[toByteArray](#grape-utility-string-toByteArray)_
@@ -2152,13 +2150,13 @@ ret :
 例：
 
     $ustr.squeeze( "hello  world" );
-    &gt; "helo world"
+    > "helo world"
     $ustr.squeeze( "おおおかえちぜん" );
-    &gt; "おかえちぜん"
+    > "おかえちぜん"
     $ustr.squeeze( "aaa   bbbc", /[a-z]/ );
-    &gt; "a   bc"
+    > "a   bc"
     $ustr.squeeze( "aaa   bbbc", /[a-z]/, "b" );
-    &gt; "aaa   bc"
+    > "aaa   bc"
 
 
 <a name="grape-utility-string-strip"></a>
@@ -2305,7 +2303,7 @@ ret :
 例：
 
     $ustr.swapcase( "Hello World!" );
-    &gt; "hWLLO wORLD!"
+    > "hWLLO wORLD!"
 
 
 <a name="grape-utility-string-times"></a>
@@ -2334,10 +2332,10 @@ ret :
 例：
 
     $ustr.times( "abc", 3 );
-    &gt; "abcabcabc"
+    > "abcabcabc"
     
     $ustr.times( "abc", -2 );
-    &gt; "cbacba"
+    > "cbacba"
 
 
 _関連：[padding](#grape-utility-string-padding)_
@@ -2513,15 +2511,15 @@ ret :
 例：
 
     $ustr.upto( "a", "d" );
-    &gt; [ "a", "b", "c", "d" ]
+    > [ "a", "b", "c", "d" ]
     
     $ustr.upto( "a9x", "b0b", function( str ){ console.log(str) } );
-    &gt; "a9x"
-    &gt; "a9y"
-    &gt; "a9z"
-    &gt; "b0a"
-    &gt; "b0b"
-    &gt; [ "a9x", "a9y", "a9z", "b0a", "b0b" ]
+    > "a9x"
+    > "a9y"
+    > "a9z"
+    > "b0a"
+    > "b0b"
+    > [ "a9x", "a9y", "a9z", "b0a", "b0b" ]
 
 
 _関連：[downto](#grape-utility-string-downto)、[next](#grape-utility-string-next)、[succ](#grape-utility-string-succ)_
@@ -2694,3 +2692,5 @@ ret :
 
 
 _関連：[getRouteByDijkstra](#grape-libraries-algorithm-getRouteByDijkstra)_
+
+
