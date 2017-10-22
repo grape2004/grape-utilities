@@ -40,6 +40,123 @@ function $UStr( opt_string ) {
     IPv4: "((25[0-5]|2[0-4][0-9]|1[0-9]{2}|0[0-9]?[0-9]|[0-9]{1,2})(\\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|0[0-9]?[0-9]|[0-9]{1,2})){3}(\\/(3[0-2]|[0-2]?[0-9]))?)",
     IPv6: "(((([0-9a-fA-F]{1,4}:){7}([0-9a-fA-F]{1,4}|:))|(([0-9a-fA-F]{1,4}:){6}(:[0-9a-fA-F]{1,4}|((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(\\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3})|:))|(([0-9a-fA-F]{1,4}:){5}(((:[0-9a-fA-F]{1,4}){1,2})|:((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(\\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3})|:))|(([0-9a-fA-F]{1,4}:){4}(((:[0-9a-fA-F]{1,4}){1,3})|((:[0-9a-fA-F]{1,4})?:((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(\\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}))|:))|(([0-9a-fA-F]{1,4}:){3}(((:[0-9a-fA-F]{1,4}){1,4})|((:[0-9a-fA-F]{1,4}){0,2}:((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(\\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}))|:))|(([0-9a-fA-F]{1,4}:){2}(((:[0-9a-fA-F]{1,4}){1,5})|((:[0-9a-fA-F]{1,4}){0,3}:((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(\\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}))|:))|(([0-9a-fA-F]{1,4}:){1}(((:[0-9a-fA-F]{1,4}){1,6})|((:[0-9a-fA-F]{1,4}){0,4}:((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(\\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}))|:))|(:(((:[0-9a-fA-F]{1,4}){1,7})|((:[0-9a-fA-F]{1,4}){0,5}:((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(\\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}))|:)))(\\/(12[0-8]|1[0-1][0-9]|[1-9][0-9]|[0-9]))?)",
   };
+  var plural_irregular = {
+    'man':          'men',
+    'seaman':       'seamen',
+    'snowman':      'snowmen',
+    'woman':        'women',
+    'person':       'people',
+    'child':        'children',
+    'foot':         'feet',
+    'crux':         'cruces',
+    'oasis':        'oases',
+    'phenomenon':   'phenomena',
+    'tooth':        'teeth',
+    'goose':        'geese',
+    'genus':        'genera',
+    'graffito':     'graffiti',
+    'mythos':       'mythoi',
+    'numen':        'numina',
+    'equipment':    'equipment',
+    'information':  'information',
+    'rice':         'rice',
+    'money':        'money',
+    'species':      'species',
+    'series':       'series',
+    'fish':         'fish',
+    'sheep':        'sheep',
+    'swiss':        'swiss',
+    'chief':        'chiefs',
+    'cliff':        'cliffs',
+    'proof':        'proofs',
+    'reef':         'reefs',
+    'relief':       'reliefs',
+    'roof':         'roofs',
+    'piano':        'pianos',
+    'photo':        'photos',
+    'safe':         'safes',
+  };
+  plural_rules = [
+    [ new RegExp( /(a|i|u|e|o)o$/, "i" ), "$1os" ],
+    [ new RegExp( /(s|x|sh|ch|o)$/, "i" ), "$1es" ],
+    [ new RegExp( /(b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z)y$/, "i" ), "$1ies" ],
+    [ new RegExp( /(f|fe)$/, "i" ), "ves" ],
+  ];
+  var singular_irregular = {
+    'men':          'man',
+    'seamen':	      'seaman',
+    'snowmen':	    'snowman',
+    'women':	      'woman',
+    'people':	      'person',
+    'children':	    'child',
+    'sexes':	      'sex',
+    'moves':	      'move',
+    'databases':	  'database',
+    'feet':	        'foot',
+    'cruces':	      'crux',
+    'oases':	      'oasis',
+    'phenomena':	  'phenomenon',
+    'teeth':	      'tooth',
+    'geese':	      'goose',
+    'atlases':	    'atlas',
+    'corpuses':	    'corpus',
+    'genies':	      'genie',
+    'genera':	      'genus',
+    'graffiti':	    'graffito',
+    'loaves':	      'loaf',
+    'mythoi':	      'mythos',
+    'niches':	      'niche',
+    'numina':	      'numen',
+    'octopuses':	  'octopus',
+    'opuses':	      'opus',
+    'penises':	    'penis',
+    'equipment':	  'equipment',
+    'information':	'information',
+    'rice':	        'rice',
+    'money':	      'money',
+    'species':	    'species',
+    'series':	      'series',
+    'fish':	        'fish',
+    'sheep':	      'sheep',
+    'swiss':	      'swiss',
+    'leaves':       'leaf',
+    'ganglions':    'ganglion',
+    'leaves':       'leaf', 
+    'monies':       'money', 
+    'soliloquies':  'soliloquy',
+    'testes':       'testis', 
+  };
+  var singular_rules = [
+    [ new RegExp( /(quiz)zes$/, "i" ),	"$1" ],
+    [ new RegExp( /(matr)ices$/, "i" ),	"$1ix" ],
+    [ new RegExp( /(vert|ind)ices$/, "i" ),	"$1ex" ],
+    [ new RegExp( /^(ox)en/, "i" ),	"$1" ],
+    [ new RegExp( /(alias|status)es$/, "i" ),	"$1" ],
+    [ new RegExp( /(octop|vir)i$/, "i" ),	"$1us" ],
+    [ new RegExp( /(cris|ax|test)es$/, "i" ), "$1is" ],
+    [ new RegExp( /(shoe)s$/, "i" ), "$1" ],
+    [ new RegExp( /(o)es$/, "i" ), "$1" ],
+    [ new RegExp( /(bus)es$/, "i" ), "$1" ],
+    [ new RegExp( /([m|l])ice$/, "i" ), "$1ouse" ],
+    [ new RegExp( /(x|ch|ss|sh)es$/, "i" ), "$1" ],
+    [ new RegExp( /movies$/, "i" ), "movie" ],
+    [ new RegExp( /series$/, "i" ), "series" ],
+    [ new RegExp( /([^aeiouy]|qu)ies$/, "i" ), "$1y" ],
+    [ new RegExp( /([lr])ves$/, "i" ), "$1f" ],
+    [ new RegExp( /(tive)s$/, "i" ), "$1" ],
+    [ new RegExp( /(hive)s$/, "i" ), "$1" ],
+    [ new RegExp( /([^f])ves$/, "i" ), "$1fe" ],
+    [ new RegExp( /(^analy)ses$/, "i" ), "$1sis" ],
+    [ new RegExp( /(analy|ba|diagno|parenthe|progno|synop|the)ses$/, "i" ), "$1sis" ],
+    [ new RegExp( /([ti])a$/, "i" ), "$1um" ],
+    [ new RegExp( /(n)ews$/, "i" ), "$1ews" ],
+    [ new RegExp( /(.)s$/, "i" ), "$1" ],
+  ];
+  var week_names        = [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ];
+  var abbr_week_names   = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ];
+  var month_names       = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+  var abbr_month_names  = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+  var abbr_timezone     = [ [ 'BIT', -720 ], [ 'SST', -660 ], [ 'HST', -600 ], [ 'AKST', -540 ], [ 'PST', -480 ], [ 'MST', -420 ], [ 'CST', -360 ], [ 'CST', -300 ], [ 'CLT', -240 ], [ 'UYT', -180 ], [ 'BRST', -120 ], [ 'AZOT', -60 ], [ 'UTC', 0 ], [ 'IST', 60 ], [ 'IST', 120 ], [ 'AST', 180 ], [ 'IRST', 210 ], [ 'GET', 240 ], [ 'AFT', 270 ], [ 'PKT', 300 ], [ 'IST', 330 ], [ 'NPT', 345 ], [ 'BST', 360 ], [ 'MMT', 390 ], [ 'THA', 420 ], [ 'SST', 480 ], [ 'ACWST', 525 ], [ 'JST', 540 ], [ 'ACST', 570 ], [ 'AEST', 600 ], [ 'LHST', 630 ], [ 'BST', 660 ], [ 'NZST', 720 ], [ 'CHAST', 765 ], [ 'NZDT', 780 ], [ 'CHADT', 825 ], [ 'LINT', 840 ] ];
   /*----------------------------------------------------------
     private methods
   ----------------------------------------------------------*/
@@ -1589,7 +1706,6 @@ function $UStr( opt_string ) {
       // reverse edition type if swap org and dest
       if ( reverse_flag ) {
         for ( var i_=0; i_<ret_.length; i_++ ) {
-          ret_[i_].value = toArrayLine( ret_[i_].value );
           switch( ret_[i_].type ){
           case "+":
             ret_[i_].type = "-"
@@ -1600,13 +1716,1513 @@ function $UStr( opt_string ) {
           }
         }
       }
-      else {
-        for ( var i_=0; i_<ret_.length; i_++ ) {
-          ret_[i_].value = toArrayLine( ret_[i_].value );
-        }        
-      }
       // return value and reverse route. because order of route datas are from end to start.
       return ret_.reverse();
+    },
+    /*----------------------------------------------------------
+      return similarity ratio of string
+    ----------------------------------------------------------*/
+    similarity: function( org, dest ){
+      if ( org == dest ) return 1;
+      org = ( org || "" ).toString();
+      dest = ( dest || "" ).toString();
+      var orgs_ = org.split("");
+      var dests_ = dest.split("");
+      var reverse_flag=false;
+      // always make shoter than horizontal.
+      if ( orgs_.length > dests_.length ) {
+        var tmp = dests_;
+        dests_ = orgs_;
+        orgs_ = tmp;
+        reverse_flag = true;
+      }
+
+      var p_ = deletionCount( orgs_, dests_ );  // deletion count
+      var delta_ = dests_.length - orgs_.length;  // str length delta
+      var edition_ = delta_ + 2 * p_; // Levenshtein distance
+      var same_ = ( dests_.length + orgs_.length ) - edition_;  // same str count
+      if ( 0 == same_ || 0 == dests_.length ) return 0;
+      return ( same_ / 2 ) / dests_.length;
+    },
+    /*----------------------------------------------------------
+      return strings of inside closed character.
+    ----------------------------------------------------------*/
+    findBlock: function( string, opt_delimiter, opt_allowNest, opt_isEscapeSameChar, opt_isEscapeReverseSolidus ){
+      string = ( string || "" ).toString();
+      opt_delimiter = ( opt_delimiter || '"' ).toString();
+      opt_allowNest              = ( "boolean" == typeof opt_allowNest ? opt_allowNest : true );
+      opt_isEscapeSameChar       = ( "boolean" == typeof opt_isEscapeSameChar ? opt_isEscapeSameChar : true );
+      opt_isEscapeReverseSolidus = ( "boolean" == typeof opt_isEscapeReverseSolidus ? opt_isEscapeReverseSolidus : false );
+      if ( 0 == string.length ) return [];
+      var st_delimiter_ = opt_delimiter.slice( 0, 1 );
+      var ed_delimiter_ = opt_delimiter.slice( 1, 2 ) || st_delimiter_;
+
+      var ret_=[];
+      var isInside=false;
+      var needBreak_;
+      var nest_=0;
+      while( 0 != string.length ){
+        needBreak_ = false;
+        for ( var i_=0; i_<string.length; i_++ ) {
+          switch ( string.charAt(i_) ){
+          case st_delimiter_:
+            if ( !isInside ) {
+              isInside = true;
+              string = string.slice( i_+1 );
+              needBreak_ = true;
+              if ( opt_allowNest ) nest_++;
+              break;
+            }
+            else if ( st_delimiter_ == ed_delimiter_ ) {
+              if ( opt_isEscapeSameChar && i_+1<string.length && ed_delimiter_ == string.charAt(i_+1) ) {
+                i_++;   // ignore
+                break;
+              }
+              ret_[ret_.length] = string.slice( 0, i_ );
+              string = string.slice( i_+1 );
+              isInside = false;
+              needBreak_ = true;
+            }
+            else if ( opt_allowNest ) {
+              nest_++;
+            }            
+            break;
+          case ed_delimiter_:
+            if ( isInside ) {
+              if ( opt_isEscapeSameChar && i_+1<string.length && ed_delimiter_ == string.charAt(i_+1) ) {
+                i_++;   // ignore
+                break;
+              }
+              if ( opt_allowNest ) nest_--;
+              if ( 0 == nest_ ) {
+                ret_[ret_.length] = string.slice( 0, i_ );
+                string = string.slice( i_+1 );
+                isInside = false;
+                needBreak_ = true;
+              }
+            }
+            break;
+          case "\\":
+            if ( isInside && opt_isEscapeReverseSolidus ) {
+              if ( i_+1<string.length && ( ed_delimiter_ == string.charAt(i_+1) || "\\" == string.charAt(i_+1) ) ) {
+                i_++;   // ignore
+                break;
+              }
+            }
+            break;
+          case "¥":
+            if ( isInside && opt_isEscapeReverseSolidus ) {
+              if ( i_+1<string.length && ( ed_delimiter_ == string.charAt(i_+1) || "¥" == string.charAt(i_+1) ) ) {
+                i_++;   // ignore
+                break;
+              }
+            }
+            break;
+          }
+          if ( needBreak_ ) break;
+        }
+        if ( i_ == string.length ) break;
+      }
+
+      // escape
+      if ( opt_isEscapeSameChar || opt_isEscapeReverseSolidus ) {
+        var tmp_;
+        var now_;
+        for ( var i_=0; i_<ret_.length; i_++ ) {
+          tmp_ = "";
+          for ( var j_=0; j_<ret_[i_].length; j_++ ) {
+            now_ = ret_[i_].charAt(j_);
+            switch( now_ ){
+            case st_delimiter_:
+              if ( opt_isEscapeSameChar && j_+1<ret_[i_].length && st_delimiter_ == ret_[i_].charAt(j_+1) ) {
+                j_++;   // ignore
+              }
+              tmp_ += now_
+              break;
+            case ed_delimiter_:
+              if ( opt_isEscapeSameChar && j_+1<ret_[i_].length && ed_delimiter_ == ret_[i_].charAt(j_+1) ) {
+                j_++;   // ignore
+              }
+              tmp_ += now_
+              break;
+            case "\\":
+              if ( opt_isEscapeReverseSolidus && j_+1<ret_[i_].length ) {
+                if ( "\\" == ret_[i_].charAt(j_+1) ) {
+                  j_++;   // ignore
+                  tmp_ += now_
+                  break;
+                }
+                else if ( st_delimiter_ == ret_[i_].charAt(j_+1) ) {
+                  j_++;   // ignore
+                  tmp_ += st_delimiter_
+                  break;
+                }
+                else if ( ed_delimiter_ == ret_[i_].charAt(j_+1) ) {
+                  j_++;   // ignore
+                  tmp_ += ed_delimiter_
+                  break;
+                }
+              }
+              tmp_ += now_
+              break;
+            case "¥":
+              if ( opt_isEscapeReverseSolidus && j_+1<ret_[i_].length ) {
+                if ( "¥" == ret_[i_].charAt(j_+1) ) {
+                  j_++;   // ignore
+                  tmp_ += now_
+                  break;
+                }
+                else if ( st_delimiter_ == ret_[i_].charAt(j_+1) ) {
+                  j_++;   // ignore
+                  tmp_ += st_delimiter_
+                  break;
+                }
+                else if ( ed_delimiter_ == ret_[i_].charAt(j_+1) ) {
+                  j_++;   // ignore
+                  tmp_ += ed_delimiter_
+                  break;
+                }
+              }
+              tmp_ += now_
+              break;
+            default:
+              tmp_ += now_
+            }
+          }
+          ret_[i_] = tmp_;        
+        }
+      }
+
+      return ret_;
+    },
+    /*----------------------------------------------------------
+      parse strings as csv and return data as array.
+    ----------------------------------------------------------*/
+    parseCsv: function( string, opt_delimiter, opt_isNormalization ){
+      function getCols( line, last_col_not_closed, opt_delimiter ) {
+        var analyzed_cols_ = [];
+        var analyzed_index_ = 0;
+        var is_inside_ = last_col_not_closed || false;
+        var is_block   = is_inside_;
+        var last_block = false;
+        var tmp_ = "";
+        if ( is_inside_ ) tmp_ += "\n";
+        for ( var i_=0; i_<line.length; i_++ ) {
+          switch( line.charAt( i_ ) ){
+          case opt_delimiter:
+            if ( is_inside_ && is_block ) {
+              tmp_ += line.charAt( i_ );
+            }
+            else {
+              if ( !last_block ) tmp_ = tmp_.replace( /[ \t]+$/, "" );
+              analyzed_cols_[ analyzed_index_ ] = tmp_;
+              analyzed_index_++;
+              is_inside_ = false;
+              last_block = false;
+              tmp_ = "";
+            }
+            break;
+
+          case '"':
+            if ( !is_inside_ ) {
+              is_inside_ = true;
+              is_block = true;
+            }
+            else {
+              if ( !is_block ) {
+                tmp_ += line.charAt( i_ );
+              }
+              else {
+                if ( i_ == line.length-1 || '"' != line.charAt( i_ + 1 ) ) {
+                  is_inside_ = false;
+                  is_block = false;
+                  last_block = true;
+                }
+                else {
+                  tmp_ += line.charAt( i_ );
+                  if ( '"' == line.charAt( i_ + 1 ) ) i_++;
+                }
+              }
+            }            
+            break;
+
+          case " ":
+          case "\t":
+            if ( is_inside_ ) {
+              tmp_ += line.charAt( i_ );
+            }
+            break;
+
+          default:
+            if ( !is_inside_ ) {
+              is_inside_ = true;
+            }
+            tmp_ += line.charAt( i_ );
+            break;
+          }
+        }
+        if ( !is_block && is_inside_ ) is_inside_ = false;
+        if ( !is_inside_ && !last_block ) tmp_ = tmp_.replace( /[ \t]+$/, "" );
+        if ( 0 < tmp_.length ) analyzed_cols_[ analyzed_index_ ] = tmp_;
+        return {
+          analyzed_cols_: analyzed_cols_,
+          last_col_not_closed: is_inside_
+        };
+      }
+
+      string = ( string || "" ).toString().replace( /[\n\r]+$/, "" );
+      opt_delimiter = ( opt_delimiter || "," ).toString();
+      opt_isNormalization = ( "boolean" == typeof opt_isNormalization ? opt_isNormalization : false );
+      if ( 0 == string.length ) return [];
+
+      var lines_ = string.split("\n");
+      var last_col_not_closed_ = false;
+      var analyzed_cols_;
+
+      var row_index_ = 0;
+      var col_index_ = 0;
+      var max_col_index = 0;
+      var ret_ = []
+
+      // analyze row
+      for ( var i_=0; i_<lines_.length; i_++ ) {
+        // analyze cols
+        var cols_ = getCols( lines_[i_], last_col_not_closed_, opt_delimiter );
+        analyzed_cols_ = cols_.analyzed_cols_;
+        ret_[row_index_] = ret_[row_index_] || [];
+        // analyze col
+        var col_ = "";
+        while ( 0 < analyzed_cols_.length ) {
+          col_ = analyzed_cols_[0];
+          analyzed_cols_.splice(0,1);
+
+          ret_[row_index_][col_index_] = ret_[row_index_][col_index_] || "";
+          ret_[row_index_][col_index_] += col_;
+
+          if ( 0 == analyzed_cols_.length ) {
+            if ( false == cols_.last_col_not_closed ) {
+              col_index_++;
+            }
+          }
+          else {
+            col_index_++;
+          }
+        }
+        if ( false ==  cols_.last_col_not_closed ) {
+          row_index_++;
+          if ( col_index_ > max_col_index ) max_col_index = col_index_;
+          col_index_ = 0;
+        }
+        last_col_not_closed_ = cols_.last_col_not_closed;
+      }
+
+      // remove last return-code.
+      if ( 1 == ret_[ ret_.length -1 ].length
+        && (
+          null == ret_[ ret_.length -1 ][0] ||
+          "undefined" == typeof( ret_[ ret_.length -1 ][0] ) ||
+          "" == ret_[ ret_.length -1 ][0]
+        )
+      ) {
+        ret_ = ret_.slice( 0, ret_.length - 1 );
+      }
+
+      // normalization
+      if ( opt_isNormalization ) {
+        for ( var i_=0; i_<ret_.length; i_++ ) {
+          for ( var j_=ret_[i_].length; j_<max_col_index; j_++ ) {
+            ret_[i_][j_] = null;
+          }
+        }
+      }
+
+      return ret_;
+    },
+    /*----------------------------------------------------------
+      escape HTML special character
+    ----------------------------------------------------------*/
+    escapeHtml: function( string ){
+      string = ( string || "" ).toString();
+      return string.replace( /&/g, "&amp;" ).replace( /</g, "&lt;" ).replace( />/g, "&gt;" ).replace( /"/g, "&quot;" ).replace( /'/g, "&#039;" );
+    },
+    /*----------------------------------------------------------
+      unescapeHtml HTML special character
+    ----------------------------------------------------------*/
+    unescapeHtml: function( string ){
+      string = ( string || "" ).toString();
+      return string.replace( /&lt;/g, "<" ).replace( /&gt;/g, ">" ).replace( /&quot;/g, "\"" ).replace( /&#039;/g, "'" ).replace( /&amp;/g, "&" );
+    },
+    /*----------------------------------------------------------
+      return plural word from singular
+    ----------------------------------------------------------*/
+    plural: function( string ){
+      string = ( string || "" ).toString();
+      if ( plural_irregular[string] ) return plural_irregular[string];
+      for ( var i_=0; i_<plural_rules.length; i_++ ) {
+        if ( string.match( plural_rules[i_][0] ) ) return string.replace( plural_rules[i_][0], plural_rules[i_][1] );
+      }
+      return string + "s";
+    },
+    /*----------------------------------------------------------
+      return singular word from plural
+    ----------------------------------------------------------*/
+    singular: function( string ){
+      string = ( string || "" ).toString();
+      if ( singular_irregular[string] ) return singular_irregular[string];
+      for ( var i_=0; i_<singular_rules.length; i_++ ) {
+        if ( string.match( singular_rules[i_][0] ) ) return string.replace( singular_rules[i_][0], singular_rules[i_][1] );
+      }
+      return string;
+    },
+    /*----------------------------------------------------------
+      convert kana from hiragana
+    ----------------------------------------------------------*/
+    kana: function( string ){
+      string = ( string || "" );
+      var strings_ = string.split("");
+      var charcode_;
+      for ( var i_=0; i_<strings_.length; i_++ ) {
+        charcode_ = strings_[i_].charCodeAt(0);
+        if ( 0x3041 <= charcode_ && charcode_ <= 0x3096 ) {
+          // 0x30A2 - 0x30F6
+          strings_[i_] =  String.fromCharCode( charcode_ + 0x60 );
+        }
+      }
+      return strings_.join("");
+    },
+    /*----------------------------------------------------------
+      convert hiragana from kana
+    ----------------------------------------------------------*/
+    hiragana: function( string ){
+      string = ( string || "" );
+      var strings_ = string.split("");
+      var charcode_;
+      for ( var i_=0; i_<strings_.length; i_++ ) {
+        charcode_ = strings_[i_].charCodeAt(0);
+        if ( 0x30A1 <= charcode_ && charcode_ <= 0x30F6 ) {
+          // 0x3041 - 0x3096
+          strings_[i_] =  String.fromCharCode( charcode_ - 0x60 );
+        }
+      }
+      return strings_.join("");
+    },
+    /*----------------------------------------------------------
+      convert en from em
+    ----------------------------------------------------------*/
+    en: function( string ){
+      string = ( string || "" );
+      var strings_ = string.split("");
+      var en_kana_ = [ "ｧ", "ｱ", "ｨ", "ｲ", "ｩ", "ｳ", "ｪ", "ｴ", "ｫ", "ｵ", "ｶ", "ｶﾞ", "ｷ", "ｷﾞ", "ｸ", "ｸﾞ", "ｹ", "ｹﾞ", "ｺ", "ｺﾞ", "ｻ", "ｻﾞ", "ｼ", "ｼﾞ", "ｽ", "ｽﾞ", "ｾ", "ｾﾞ", "ｿ", "ｿﾞ", "ﾀ", "ﾀﾞ", "ﾁ", "ﾁﾞ", "ｯ", "ﾂ", "ﾂﾞ", "ﾃ", "ﾃﾞ", "ﾄ", "ﾄﾞ", "ﾅ", "ﾆ", "ﾇ", "ﾈ", "ﾉ", "ﾊ", "ﾊﾞ", "ﾊﾟ", "ﾋ", "ﾋﾞ", "ﾋﾟ", "ﾌ", "ﾌﾞ", "ﾌﾟ", "ﾍ", "ﾍﾞ", "ﾍﾟ", "ﾎ", "ﾎﾞ", "ﾎﾟ", "ﾏ", "ﾐ", "ﾑ", "ﾒ", "ﾓ", "ｬ", "ﾔ", "ｭ", "ﾕ", "ｮ", "ﾖ", "ﾗ", "ﾘ", "ﾙ", "ﾚ", "ﾛ", null, "ﾜ", null, null, "ｦ", "ﾝ", "ｳﾞ" ];
+      var en_symbol_ = [ "!", null, "#", "$", "%", "&", null, "(", ")", "*", "+", null, null, null, "/", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ":", ";", "<", "=", ">", "?", "@" ];
+      var en_symbol_irregular_ = { "　":" ", "＾":"^", "＿":"_", "｀":"`", "｜":"|", "￥":"¥", "’":"'", "”":"\"", "、":",", "。":".", "「":"[", "」":"]", "『":"{", "』":"}", "〜":"~", "ー":"-" };
+      var charcode_;
+      for ( var i_=0; i_<strings_.length; i_++ ) {
+        charcode_ = strings_[i_].charCodeAt(0);
+        // kana
+        if ( 0x30A1 <= charcode_ && charcode_ <= 0x30F6 ) {
+          strings_[i_] =  en_kana_[ charcode_ - 0x30A1 ] || String.fromCharCode( charcode_ );
+        }
+        // lowercase alphabet
+        else if ( 0xFF41 <= charcode_ && charcode_ <= 0xFF5a ) {
+          strings_[i_] =  String.fromCharCode( 0x61 + charcode_ - 0xFF41 );
+        }
+        // uppercase alphabet
+        else if ( 0xFF21 <= charcode_ && charcode_ <= 0xFF3a ) {
+          strings_[i_] =  String.fromCharCode( 0x41 + charcode_ - 0xFF21 );          
+        }
+        else if ( 0xFF01 <= charcode_ && charcode_ <= 0xFF20 ) {
+          strings_[i_] =  en_symbol_[ charcode_ - 0xFF01 ] || String.fromCharCode( charcode_ );
+        }
+        else if ( en_symbol_irregular_[ strings_[i_] ] ) {
+          strings_[i_] = en_symbol_irregular_[ strings_[i_] ];
+        }
+      }
+      return strings_.join("");
+    },
+    /*----------------------------------------------------------
+      convert em from en
+    ----------------------------------------------------------*/
+    em: function( string ){
+      string = ( string || "" );
+      var strings_ = string.split("");
+      var em_kana_ = [ "ヲ", "ァ", "ィ", "ゥ", "ェ", "ォ", "ャ", "ュ", "ョ", "ッ", null, "ア", "イ", "ウ", "エ", "オ", "カ", "キ", "ク", "ケ", "コ", "サ", "シ", "ス", "セ", "ソ", "タ", "チ", "ツ", "テ", "ト", "ナ", "ニ", "ヌ", "ネ", "ノ", "ハ", "ヒ", "フ", "ヘ", "ホ", "マ", "ミ", "ム", "メ", "モ", "ヤ", "ユ", "ヨ", "ラ", "リ", "ル", "レ", "ロ", "ワ", "ン" ];
+      var em_symbol_ = [ "！", "”", "＃", "＄", "％", "＆", "’", "（", "）", "＊", "＋", "、", "ー", "。", "／", "０", "１" ,"２", "３", "４", "５", "６", "７", "８", "９", "：", "；", "＜", "＝", "＞", "？", "＠" ];
+      var em_symbol_irregular_ = { " ":"　", "^":"＾", "_":"＿", "`":"｀", "|":"｜", "¥":"￥", "[":"「", "]":"」", "{":"『", "}":"』", "~":"〜" };
+      var charcode_;
+      var prev_charcode_;
+      for ( var i_=0; i_<strings_.length; i_++ ) {
+        charcode_ = strings_[i_].charCodeAt(0);
+        // kana
+        if ( 0xFF66 <= charcode_ && charcode_ <= 0xFF9d ) {
+          strings_[i_] =  em_kana_[ charcode_ - 0xFF66 ] || String.fromCharCode( charcode_ );
+        }
+        // dull
+        else if ( 0xFF9e == charcode_ ) {
+          prev_charcode_ = strings_[i_-1].charCodeAt(0);
+          if ( 0 < i_ && 0x30AB <= prev_charcode_ && prev_charcode_ <= 0x30C8 ) {
+            strings_[i_-1] =  String.fromCharCode( prev_charcode_ + 1 );
+            strings_[i_] = "";
+          }
+          else if ( 0 < i_ && 0x30CF <= prev_charcode_ && prev_charcode_ <= 0x30DB ) {
+            strings_[i_-1] =  String.fromCharCode( prev_charcode_ + 1 );
+            strings_[i_] = "";
+          }
+          else {
+            strings_[i_] = "゛";
+          }
+        }
+        // half dull
+        else if ( 0xFF9f == charcode_ ) {
+          prev_charcode_ = strings_[i_-1].charCodeAt(0);
+          if ( 0 < i_ && 0x30CF <= prev_charcode_ && prev_charcode_ <= 0x30DB ) {
+            strings_[i_-1] =  String.fromCharCode( prev_charcode_ + 2 );
+            strings_[i_] = "";
+          }
+          else {
+            strings_[i_] = "゜";
+          }
+        }
+        // lowercase alphabet
+        else if ( 0x61 <= charcode_ && charcode_ <= 0x7A ) {
+          strings_[i_] =  String.fromCharCode( 0xFF41 + charcode_ - 0x61 );
+        }
+        // uppercase alphabet
+        else if ( 0x41 <= charcode_ && charcode_ <= 0x5A ) {
+          strings_[i_] =  String.fromCharCode( 0xFF21 + charcode_ - 0x41 );
+        }
+        else if ( 0x21 <= charcode_ && charcode_ <= 0x40 ) {
+          strings_[i_] =  em_symbol_[ charcode_ - 0x21 ] || String.fromCharCode( charcode_ );
+        }
+        else if ( em_symbol_irregular_[ strings_[i_] ] ) {
+          strings_[i_] = em_symbol_irregular_[ strings_[i_] ];
+        }
+      }
+      return strings_.join("");
+    },
+    /*----------------------------------------------------------
+      convert strings with caesar cipher
+    ----------------------------------------------------------*/
+    caesarCipher: function( string, shift ){
+      string = ( string || "" );
+      var strings_ = string.split("");
+      function convert( str, index, convert_table, tbl_index, shift ){
+        tbl_index += ( shift % convert_table.length );
+        if ( tbl_index >= convert_table.length ) tbl_index -= convert_table.length;
+        if ( tbl_index < 0 ) tbl_index = convert_table.length + tbl_index;
+        strings_[index] =  convert_table[ tbl_index ];
+        if ( null == strings_[index] ) {
+          strings_[index] = ( 0 < shift ? convert_table[ tbl_index+1 ] : convert_table[ tbl_index-1 ] );
+        }
+      }
+      var en_alphabet_ = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
+      var em_hiragana_ = "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ";
+      var em_kana_     = "ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶ";
+      var em_number_ = "０１２３４５６７８９";
+      var em_alphabet_u_ = "ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ";
+      var em_alphabet_l_ = "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ";
+      var en_kana_ = "ｦｧｨｩｪｫｬｭｮｯｰｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ";
+      var charcode_;
+      var index_;
+      for ( var i_=0; i_<strings_.length; i_++ ) {
+        charcode_ = strings_[i_].charCodeAt(0);
+        // en alphabet
+        if ( 0x20 <= charcode_ && charcode_ <= 0x7E ) {
+          convert( strings_, i_, en_alphabet_, ( charcode_ - 0x20 ), shift );
+        }
+        // em hiragana
+        if ( 0x3041 <= charcode_ && charcode_ <= 0x3096 ) {
+          convert( strings_, i_, em_hiragana_, ( charcode_ - 0x3041 ), shift );
+        }
+        // em kana
+        else if ( 0x30A1 <= charcode_ && charcode_ <= 0x30F6 ) {
+          convert( strings_, i_, em_kana_, ( charcode_ - 0x30A1 ), shift );
+        }
+        // em number
+        else if ( 0xFF10 <= charcode_ && charcode_ <= 0xFF19 ) {
+          convert( strings_, i_, em_number_, ( charcode_ - 0xFF10 ), shift );
+        }
+        // em alphabet upper
+        else if ( 0xFF21 <= charcode_ && charcode_ <= 0xFF3A ) {
+          convert( strings_, i_, em_alphabet_u_, ( charcode_ - 0xFF21 ), shift );
+        }
+        // em alphabet lower
+        else if ( 0xFF41 <= charcode_ && charcode_ <= 0xFF5A ) {
+          convert( strings_, i_, em_alphabet_l_, ( charcode_ - 0xFF41 ), shift );
+        }
+        // en kana
+        else if ( 0xFF66 <= charcode_ && charcode_ <= 0xFF9D ) {
+          convert( strings_, i_, en_kana_, ( charcode_ - 0xFF66 ), shift );
+        }
+      }
+      return strings_.join("");
+    },
+    /*----------------------------------------------------------
+      convert strings with leet
+    ----------------------------------------------------------*/
+    leet: function( string ){
+      string = ( string || "" );
+      var strings_ = string.split("");
+      //          abcdefghijklmnopqrstuvwxyz
+      var leet_ = "46cd3fgh1jklmn0p9r57uvwxy2";
+      for ( var i_=0; i_<strings_.length; i_++ ) {
+        charcode_ = strings_[i_].charCodeAt(0);
+        if ( 0x61 <= charcode_ && charcode_ <= 0x7A ) {
+          strings_[i_] = leet_[ ( charcode_ - 0x61 ) ];
+        }
+      }
+      return strings_.join("");
+    },
+    /*----------------------------------------------------------
+      Replace parameters to strings with formats
+    ----------------------------------------------------------*/
+    formats: function(){
+      var formats_ = "";
+      var params_ = [];
+      var tmp_ = arguments[0];
+      switch( typeof tmp_ ){
+      case 'object':
+        if ( !(tmp_ instanceof Array) ) return null;
+        formats_ = tmp_[0].toString();
+        params_ = tmp_.slice( 1 );
+        break;
+      case 'string':
+        formats_ = tmp_;
+        if ( 1 < arguments.length ) {
+          if ( arguments[1] instanceof Array ) {
+            params_ = arguments[1];
+          }
+          else {
+            for ( var i_=1; i_<arguments.length; i_++ ) params_[ params_.length ] = arguments[i_];
+          }
+        }
+        break;
+      default:
+        return null;
+      }
+      // get param private function
+      var param_index_ = 0;
+      function getParam(){
+        if ( 0 == params_.length ) return "";
+        if ( params_.length-1 < param_index_ ) return params_[ params_.length - 1 ];
+        var tmp_ = params_[ param_index_ ];
+        param_index_++;
+        return tmp_;
+      }
+      function toNumber( param ){
+        if ( "number" == typeof param ) return param;
+        if ( param instanceof Date ) return param.getTime();
+        var tmp_ =  parseFloat( param );
+        return tmp_;
+      }
+      function toDatetime( param, limit ){
+        if ( param instanceof Date ) return param;
+        limit = limit || 0;
+        if ( "number" == typeof param ) {
+          if ( 0 > param ) return "NaN";
+          if ( limit < param.toString().length ) {
+            return new Date( param );
+          }
+          return param;
+        }
+        var tmp_ = Date.parse( param );
+        if ( isNaN( tmp_ ) ) return "NaN";
+        return new Date( param.toString() );
+      }
+      function getBeginningOfYear( date ){
+        return new Date( date.getFullYear(), 0, 1 );
+      }
+      function getDiffDays( a, b ){
+        return Math.floor( ( b.getTime() - a.getTime() ) / ( 1000 * 60 * 60 * 24 ) );
+      }
+      function getWeeksByOrigin( date, origin_week, contain_week_of_start ) {
+        var oneJan_ = getBeginningOfYear( date );
+        var tmp_ = getDiffDays( oneJan_, date ) + 1;   // get dill days. ex) 1/1 is 1. 1/2 is 2.
+        var offset_ = ( oneJan_.getDay() - origin_week ) - 1
+        tmp_ = Math.floor( ( tmp_ + offset_ ) / 7 ) + 1;
+        if ( "number" == typeof contain_week_of_start && contain_week_of_start < oneJan_.getDay() ) tmp_ -= 1;  // if the 1/1 is after start-week, treat it as week in last year.
+        return tmp_;
+      }
+      function paddingLeft( str, length, pad ){
+        if ( "string" != typeof str ) str = str.toString();
+        if ( str.length < length ) {
+          var pad_size_ = length - str.length;
+          var tmp_ = "";
+          for ( var i_=0; i_<pad_size_; i_++ ) tmp_ += pad;
+          str = pad + str;
+        }
+        return str;
+      }
+      // analyze format and replace params
+      formats_ = formats_.replace( /(%%|%[ 0#+\-]*([1-9][0-9]*)?\.?([1-9][0-9]*)?[doxXfgsYymBbjwAaVUWHlMSNLPpZzFDvTRr])/g, function( sp ){
+        if ( "%%" == sp ) return "%";
+        // init
+        var right_align_ = true;
+        var mark_ = false;
+        var pad_after_mark_ = false;
+        var prefix_ = false;
+        var prefix_str_ = "";
+        var pad_ = " ";
+        var limit_ = 0;
+        var decimal_ = false;
+        var decimal_limit_ = 0;
+        var specifier_ = "";
+        var param_ = "";
+        // analyze
+        var tmp_ = sp.slice( 1 );
+        //   analyze flag directive
+        var tmpmc_ = tmp_.match( /^[ 0#+\-]+/ );
+        if ( tmpmc_ ) {
+          var dirty_flag_ = {};
+          for ( var i_=0; i_<tmpmc_[0].length; i_++ ) {
+            switch( tmpmc_[0].charAt(i_) ){
+            case "+":
+              mark_ = true;
+              if ( dirty_flag_["+"] ) return sp;
+              dirty_flag_["+"] = true;
+              break;
+            case "#":
+              prefix_ = true;
+              if ( dirty_flag_["#"] ) return sp;
+              dirty_flag_["#"] = true;
+              break;
+            case " ":
+              pad_after_mark_ = true;
+              if ( dirty_flag_[" "] ) return sp;
+              dirty_flag_[" "] = true;
+              break;
+            case "0":
+              pad_ = "0";
+              if ( dirty_flag_["0"] ) return sp;
+              dirty_flag_["0"] = true;
+              break;
+            case "-":
+              right_align_ = false;
+              if ( dirty_flag_["-"] ) return sp;
+              dirty_flag_["-"] = true;
+              break;
+            }
+          }
+          if ( dirty_flag_["-"] ) {
+            if ( dirty_flag_["0"] ) pad_ = " ";
+            if ( dirty_flag_[" "] ) pad_after_mark_ = false;
+          }
+          tmp_ = tmp_.slice( tmpmc_[0].length );
+        }
+        //   analize limits
+        var tmpmc_ = tmp_.match( /^[0-9]+/ );
+        if ( tmpmc_ ) {
+          limit_ = parseInt( tmpmc_[0] );
+          tmp_ = tmp_.slice( tmpmc_[0].length );
+        }
+        //   analize decimal
+        var tmpmc_ = tmp_.match( /^\.[0-9]*/ );
+        if ( tmpmc_ ) {
+          decimal_ = true;
+          if ( 1 < tmpmc_[0].length ) decimal_limit_ = parseInt( tmpmc_[0].slice( 1 ) );
+          tmp_ = tmp_.slice( tmpmc_[0].length );
+        }
+        //   analyze specifier
+        var tmpmc_ = tmp_.match( /^[doxXfgsYymBbjwAaVUWHlMSNLPpZzFDvTRr]$/ );
+        if ( tmpmc_ ) {
+          specifier_ = tmpmc_[0];
+        }
+        else {
+          return sp;
+        }
+        // replace specifier
+        var replaced_ = "";
+        var replaced_decimal_ = "";
+        var param_ = getParam();
+        switch( specifier_ ) {
+        // replace number as strings
+        case "d":
+          if ( param_ instanceof Date ) param_ = param_.getDate();
+          tmp_ = toNumber( param_ )
+          if ( 0 > tmp_ ) {
+            mark_ = true;
+            prefix_str_ = "-";
+          }
+          else if ( mark_ ) {
+            prefix_str_ = "+";
+          }
+          if ( isNaN( tmp_ ) ) {
+            decimal_ = false;
+            tmp_ = "NaN";
+          }
+          else if ( !isFinite( tmp_ ) ) {
+            decimal_ = false;
+            tmp_ = "Infinity";
+          }
+          tmp_ = tmp_.toString().split(".");
+          replaced_ = tmp_[0] || "0";
+          replaced_decimal_ = tmp_[1] || "";
+          if ( "-" == replaced_.charAt(0) ) replaced_ = replaced_.slice( 1 );
+          break;
+        // replace oct number as strings
+        case "o":
+          tmp_ = toNumber( param_ )
+          if ( 0 > tmp_ ) {
+            mark_ = true;
+            prefix_str_ = "-" + prefix_str_;
+          }
+          else if ( mark_ ) {
+            prefix_str_ = "+" + prefix_str_;
+          }
+          if ( isNaN( tmp_ ) ) {
+            decimal_ = false;
+            tmp_ = "NaN";
+          }
+          else if ( !isFinite( tmp_ ) ) {
+            decimal_ = false;
+            tmp_ = "Infinity";
+          }
+          else if ( prefix_ ) prefix_str_ = prefix_str_ + "0";
+          tmp_ = tmp_.toString( 8 ).split(".");
+          replaced_ = tmp_[0] || "0";
+          replaced_decimal_ = tmp_[1] || "";
+          if ( "-" == replaced_.charAt(0) ) replaced_ = replaced_.slice( 1 );
+          break;
+        // replace hex number as strings(lower case)
+        case "x":
+          tmp_ = toNumber( param_ )
+          if ( 0 > tmp_ ) {
+            mark_ = true;
+            prefix_str_ = "-" + prefix_str_;
+          }
+          else if ( mark_ ) {
+            prefix_str_ = "+" + prefix_str_;
+          }
+          if ( isNaN( tmp_ ) ) {
+            decimal_ = false;
+            tmp_ = "NaN";
+          }
+          else if ( !isFinite( tmp_ ) ) {
+            decimal_ = false;
+            tmp_ = "Infinity";
+          }
+          else if ( prefix_ ) prefix_str_ = prefix_str_ + "0x";
+          tmp_ = ( "number" == typeof tmp_ ? tmp_.toString( 16 ).toLowerCase().split(".") : [tmp_] );
+          replaced_ = tmp_[0] || "0";
+          replaced_decimal_ = tmp_[1] || "";
+          if ( "-" == replaced_.charAt(0) ) replaced_ = replaced_.slice( 1 );
+          break;
+        // replace hex number as strings(upper case)
+        case "X":
+          tmp_ = toNumber( param_ )
+          if ( 0 > tmp_ ) {
+            mark_ = true;
+            prefix_str_ = "-" + prefix_str_;
+          }
+          else if ( mark_ ) {
+            prefix_str_ = "+" + prefix_str_;
+          }
+          if ( isNaN( tmp_ ) ) {
+            decimal_ = false;
+            tmp_ = "NaN";
+          }
+          else if ( !isFinite( tmp_ ) ) {
+            decimal_ = false;
+            tmp_ = "Infinity";
+          }
+          else if ( prefix_ ) prefix_str_ = prefix_str_ + "0x";
+          tmp_ = ( "number" == typeof tmp_ ? tmp_.toString( 16 ).toUpperCase().split(".") : [tmp_] );
+          replaced_ = tmp_[0] || "0";
+          replaced_decimal_ = tmp_[1] || "";
+          if ( "-" == replaced_.charAt(0) ) replaced_ = replaced_.slice( 1 );
+          break;
+        // replace float number as strings
+        case "f":
+          decimal_ = true;
+          tmp_ = toNumber( param_ )
+          if ( 0 > tmp_ ) {
+            mark_ = true;
+            prefix_str_ = "-";
+          }
+          else if ( mark_ ) {
+            prefix_str_ = "+";
+          }
+          if ( isNaN( tmp_ ) ) {
+            decimal_ = false;
+            tmp_ = "NaN";
+          }
+          else if ( !isFinite( tmp_ ) ) {
+            decimal_ = false;
+            tmp_ = "Infinity";
+          }
+          tmp_ = tmp_.toString().split(".");
+          replaced_ = tmp_[0] || 0;
+          replaced_decimal_ = tmp_[1] || "0";
+          if ( "-" == replaced_.charAt(0) ) replaced_ = replaced_.slice( 1 );
+          break;
+        // replace exponent as strings
+        case "g":
+          tmp_ = toNumber( param_ )
+          if ( 0 > tmp_ ) {
+            mark_ = true;
+            prefix_str_ = "-";
+          }
+          else if ( mark_ ) {
+            prefix_str_ = "+";
+          }
+          if ( isNaN( tmp_ ) ) {
+            decimal_ = false;
+            replaced_ = "NaN";
+          }
+          else if ( !isFinite( tmp_ ) ) {
+            decimal_ = false;
+            replaced_ = "Infinity";
+          }
+          else {
+            if ( decimal_ ) {
+              tmp_ = tmp_.toExponential( 0 < decimal_limit_ ? decimal_limit_ : undefined ).split(".");              
+            }
+            else {
+              tmp_ = tmp_.toExponential( 0 ).split(".");
+            }
+            replaced_ = tmp_[0] || "0e+0";
+            replaced_decimal_ = tmp_[1] || "";
+            if ( 0 < decimal_limit_ ) decimal_limit_ += ( ( replaced_decimal_.split("e+")[1] || "" ).length + 2 );
+            if ( "-" == replaced_.charAt(0) ) replaced_ = replaced_.slice( 1 );
+          }
+          break;
+        // replace it as strings
+        case "s":
+          mark_ = false;
+          if ( param_ instanceof Date ) {
+            replaced_ = param_.toISOString();
+          }
+          else {
+            if ( "undefined" == typeof param_ ) {
+              replaced_ = "undefined";
+            }
+            else if ( null == param_ ) {
+              replaced_ = "NULL";
+            }
+            else {
+              replaced_ = param_.toString();
+            }
+          }
+          break;
+        // replace date as 4 digit of Year
+        case "Y":
+          mark_ = false;
+          decimal_ = false;
+          param_ = toDatetime( param_, 4 );
+          if ( "number" == typeof param_ ) param_ = new Date( param_, 1, 1 );
+          if ( param_ instanceof Date ) {
+            replaced_ = param_.getFullYear().toString();
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as the bottom 2 digit of year
+        case "y":
+          mark_ = false;
+          decimal_ = false;
+          param_ = toDatetime( param_, 4 );
+          if ( "number" == typeof param_ ) param_ = new Date( param_, 1, 1 );
+          if ( param_ instanceof Date ) {
+            replaced_ = param_.getFullYear().toString().slice( 2 );
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as month number (1-12)
+        case "m":
+          mark_ = false;
+          decimal_ = false;
+          param_ = toDatetime( param_, 2 );
+          if ( "number" == typeof param_ ) param_ = new Date( 1900, param_-1, 1 );
+          if ( param_ instanceof Date ) {
+            replaced_ = ( param_.getMonth() + 1 ).toString();
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as month name of english
+        case "B":
+          mark_ = false;
+          pad_ = " ";
+          decimal_ = false;
+          param_ = toDatetime( param_, 2 );
+          if ( "number" == typeof param_ ) param_ = new Date( 1900, param_-1, 1 );
+          if ( param_ instanceof Date ) {
+            replaced_ = month_names[ param_.getMonth() ];
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as abbreviated month name
+        case "b":
+          mark_ = false;
+          pad_ = " ";
+          decimal_ = false;
+          param_ = toDatetime( param_, 2 );
+          if ( "number" == typeof param_ ) param_ = new Date( 1900, param_-1, 1 );
+          if ( param_ instanceof Date ) {
+            replaced_ = abbr_month_names[ param_.getMonth() ];
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as strings how days since beginning of year
+        case "j":
+          mark_ = false;
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            replaced_ = ( getDiffDays( getBeginningOfYear( param_ ), param_ ) + 1 ).toString();
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as week number(0-6, 0 is sunday)
+        case "w":
+          mark_ = false;
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            replaced_ = param_.getDay().toString();
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as week name
+        case "A":
+          mark_ = false;
+          pad_ = " ";
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            replaced_ = week_names[ param_.getDay() ];
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as abbreviated week name
+        case "a":
+          mark_ = false;
+          pad_ = " ";
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            replaced_ = abbr_week_names[ param_.getDay() ];
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as weeks since beginning of year (ISO8601)
+        // According to the definition of ISO8601, the first week starts on monday and must contain thursday.
+        // So, if 1/1 is thursday, 12/31 in last year is contained first week of new year.
+        // Or, if 1/1 is friday, 1/1 is contained end week of last year. and 1/4 is first week.
+        case "V":
+          mark_ = false;
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            tmp_ = getWeeksByOrigin( param_, 1, 4 );
+            if ( 0 == tmp_ ) tmp_ = getWeeksByOrigin( new Date( param_.getFullYear()-1, 11, 31 ), 1, 4 ); // it is contained last year
+            // if it is contained next year
+            var dec31_ = new Date( param_.getFullYear(), 11, 31 );
+            if ( 4 > dec31_.getDay() && 1 <= param_.getDay() && dec31_.getDay() > getDiffDays( param_, dec31_ ) ) {   // if week in end of year not contained thursday. the week is contained next year.
+              tmp_ = 1;
+            }
+            replaced_ = tmp_.toString();
+          }
+          else {
+            replaced_ = param.toString();
+          }
+          break;
+        // replace date as weeks since begginning of year (first sunday is first week)
+        case "U":
+          mark_ = false;
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            tmp_ = getWeeksByOrigin( param_, 0, 0 );
+            if ( 0 == tmp_ ) tmp_ = getWeeksByOrigin( new Date( param_.getFullYear()-1, 11, 31 ), 0, 0 ); // it is contained last year
+            replaced_ = tmp_.toString();
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as weeks since begginning of year (first monday is first week)
+        case "W":
+          mark_ = false;
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            tmp_ = getWeeksByOrigin( param_, 1, 1 );
+            if ( 0 == tmp_ ) tmp_ = getWeeksByOrigin( new Date( param_.getFullYear()-1, 11, 31 ), 1, 1 ); // it is contained last year
+            replaced_ = tmp_.toString();
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as hour(0-23)
+        case "H":
+          mark_ = false;
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            replaced_ = param_.getHours().toString();
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as hour(1-12)
+        case "l":
+          mark_ = false;
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            tmp_ = param_.getHours();
+            if ( 0 == tmp_ ) tmp_ = 12;
+            if ( 12 < tmp_ ) tmp_ -= 12;
+            replaced_ = tmp_.toString();
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as minute(0-59)
+        case "M":
+          mark_ = false;
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            replaced_ = param_.getMinutes().toString();
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as sec(0-60)
+        case "S":
+          mark_ = false;
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            replaced_ = param_.getSeconds().toString();
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as milli-sec(0-999)
+        case "N":
+        case "L":
+          mark_ = false;
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            replaced_ = param_.getMilliseconds().toString();
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date am or pm
+        case "P":
+          mark_ = false;
+          pad_ = " ";
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            tmp_ = param_.getHours();
+            replaced_ = ( 12 > tmp_ ? "am" : "pm" );
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date AM or PM
+        case "p":
+          mark_ = false;
+          pad_ = " ";
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            tmp_ = param_.getHours();
+            replaced_ = ( 12 > tmp_ ? "AM" : "PM" );
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as timezone name
+        case "Z":
+          mark_ = false;
+          pad_ = " ";
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            tmp_ = -param_.getTimezoneOffset();
+            // search neer value
+            replaced_ = abbr_timezone[ abbr_timezone.length - 1 ][0];
+            for ( var i_=1; i_<abbr_timezone.length; i_++ ) {
+              if ( tmp_ >= abbr_timezone[i_-1][1] && tmp_ < abbr_timezone[i_][1] ) {
+                var diff_ = tmp_ - abbr_timezone[i_-1][1];
+                var center_ = ( abbr_timezone[i_][1] - abbr_timezone[i_-1][1] ) / 2;
+                replaced_ = ( diff_ > center_ ? abbr_timezone[i_][0] : abbr_timezone[i_-1][0] );
+                break;
+              }
+            }
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as timezone(offset time from UTC)
+        case "z":
+          pad_ = " ";
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            tmp_ = -param_.getTimezoneOffset();
+            if ( 0 > tmp_ ) {
+              mark_ = true;
+              prefix_str_ = "-";
+              tmp_ = -tmp_;
+            }
+            else if ( mark_ ) {
+              prefix_str_ = "+";
+            }
+            var hour_ = Math.floor( tmp_ / 60 ).toString();
+            var minute_ = ( tmp_ % 60 ).toString();
+            hour_ = paddingLeft( hour_, 2, "0" );
+            minute_ = paddingLeft( minute_, 2, "0" );
+            replaced_ = hour_ + ":" + minute_;
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as string of YYYY-mm-dd
+        case "F":
+          mark_ = false;
+          pad_ = " ";
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            tmp_ = [
+              paddingLeft( param_.getFullYear(), 4, "0" ),
+              paddingLeft( param_.getMonth()+1, 2, "0" ),
+              paddingLeft( param_.getDate(), 2, "0" ),
+            ];
+            replaced_ = tmp_.join("-");
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as string of mm/dd/YYYY
+        case "D":
+          mark_ = false;
+          pad_ = " ";
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            tmp_ = [
+              paddingLeft( param_.getMonth()+1, 2, "0" ),
+              paddingLeft( param_.getDate(), 2, "0" ),
+              paddingLeft( param_.getFullYear(), 4, "0" ),
+            ];
+            replaced_ = tmp_.join("/");
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as string of b-dd-YYYY
+        case "v":
+          mark_ = false;
+          pad_ = " ";
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            tmp_ = [
+              abbr_month_names[ param_.getMonth() ],
+              paddingLeft( param_.getDate(), 2, "0" ),
+              paddingLeft( param_.getFullYear(), 4, "0" ),
+            ];
+            replaced_ = tmp_.join("-");
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as string of HH:MM:SS
+        case "T":
+          mark_ = false;
+          pad_ = " ";
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            tmp_ = [
+              paddingLeft( param_.getHours(), 2, "0" ),
+              paddingLeft( param_.getMinutes(), 2, "0" ),
+              paddingLeft( param_.getSeconds(), 2, "0" ),
+            ];
+            replaced_ = tmp_.join(":");
+          }
+          else {
+            replaced_ = param.toString();
+          }
+          break;
+        // replace date as string of HH:MM
+        case "R":
+          mark_ = false;
+          pad_ = " ";
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            tmp_ = [
+              paddingLeft( param_.getHours(), 2, "0" ),
+              paddingLeft( param_.getMinutes(), 2, "0" ),
+            ];
+            replaced_ = tmp_.join(":");
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        // replace date as string of ll:MM:SS p
+        case "r":
+          mark_ = false;
+          pad_ = " ";
+          decimal_ = false;
+          param_ = toDatetime( param_ );
+          if ( param_ instanceof Date ) {
+            var hour_ = param_.getHours();
+            var h_hour_ = hour_;
+            if ( 0 == h_hour_ ) h_hour_ = 12;
+            if ( 12 < h_hour_ ) h_hour_ -= 12;
+            tmp_ = [
+              paddingLeft( h_hour_, 2, "0" ),
+              paddingLeft( param_.getMinutes(), 2, "0" ),
+              paddingLeft( param_.getSeconds(), 2, "0" ),
+            ];
+            replaced_ = tmp_.join(":") + ( 12 > hour_ ? " AM" : " PM" );
+          }
+          else {
+            replaced_ = param_.toString();
+          }
+          break;
+        default:
+          return sp;
+        }
+        // modification
+        //   floor decimal
+        if ( decimal_ ) {
+          if ( 0 < decimal_limit_ ) {
+            if ( decimal_limit_ < replaced_decimal_.length ) {
+              replaced_decimal_ = replaced_decimal_.slice( 0, decimal_limit_ );              
+            }
+            else if ( decimal_limit_ > replaced_decimal_.length ) {
+              var tmp_ = decimal_limit_ - replaced_decimal_.length;
+              for ( var i_=0; i_<tmp_; i_++ ) replaced_decimal_ += "0";
+            }
+          }
+          if ( 0 < replaced_decimal_.length ) replaced_ = replaced_ + "." + replaced_decimal_;            
+        }
+        //   generate padding
+        var pad_str_ = "";
+        if ( limit_ > ( replaced_.length + prefix_str_.length ) ) {
+          var tmp_ = limit_ - ( replaced_.length + prefix_str_.length );
+          for ( var i_=0; i_<tmp_; i_++ ) pad_str_ += pad_;
+        }
+        //   append prefix and padding
+        if ( right_align_ ) {
+          if ( pad_after_mark_ ) {
+            replaced_ = prefix_str_ + pad_str_ + replaced_;
+          }
+          else {
+            replaced_ = pad_str_ + prefix_str_ + replaced_;
+          }
+        }
+        else {
+          replaced_ = prefix_str_ + replaced_ + pad_str_;
+        }
+        return replaced_;
+      } );
+      return formats_;
+    },
+    /*----------------------------------------------------------
+      separate the strings.
+    ----------------------------------------------------------*/
+    separate: function( string, phraze ){
+      string = ( string || "" ).toString();
+      if ( null == phraze || ( 'string' != typeof phraze && !(phraze instanceof RegExp) ) || 0 == phraze.length ) return string.split("");
+      var reg_ = new RegExp( phraze );
+      var ret_ = [];
+      while( 0 < string.length ){
+        var index_ = string.search( reg_ );
+        if ( -1 == index_ ) {
+          ret_[ ret_.length ] = string;
+          break;
+        }
+        else {
+          if ( 0 < index_ ) {
+            ret_[ ret_.length ] = string.slice( 0, index_ );
+            string = string.slice( index_ );
+          }
+          var tmp_ = string.match( reg_ );
+          if ( !tmp_ ) {
+            ret_[ ret_.length ] = string;
+            break;
+          }
+          ret_[ ret_.length ] = tmp_[0];
+          string = string.slice( tmp_[0].length );
+        }
+      }
+      return ret_
+    },
+    /*----------------------------------------------------------
+      parse formula and return result as objects
+    ----------------------------------------------------------*/
+    parseFormula: function( string, opt_operators, opt_tacitness ){
+      string = ( string || "" ).replace( /[ \t\r\n]+/g, " " );
+      opt_operators = opt_operators || [ 
+        [ "sin", "cos", "tan" ], 
+        [ "!", "^" ],
+        [ "%", "/" ],
+        [ "*" ],
+        [ "-", "+" ],
+      ];
+      if ( "string" != typeof opt_tacitness || 0 == opt_tacitness.length ) opt_tacitness = "*";
+
+      // always append special operators
+      opt_operators[ opt_operators.length ] = [ "=", " ", "(", ")" ];
+
+      // prepare
+      var ope_regstr_ = [];
+      var ope_priorities_ = {};
+      for ( var i_=0; i_<opt_operators.length; i_++ ) {
+        if ( !( opt_operators[i_] instanceof Array ) ) opt_operators[i_] = [ opt_operators[i_] ];
+        for ( var j_=0; j_<opt_operators[i_].length; j_++ ) {
+          // make operator's priority
+          ope_priorities_[ opt_operators[i_][j_] ] = i_;
+          // convert for regular expression
+          ope_regstr_[ ope_regstr_.length ] = opt_operators[i_][j_].replace( /([\[\]\{\}\(\)\/\\\^\$\.\*\+\-|])/g, "\\$1" );
+        }
+      }
+      ope_regstr_[ ope_regstr_.length ] = "[0-9]+(\\.[0-9]+)?";
+
+      // lex
+      var ope_reg_ = "(" + ope_regstr_.join("|") + ")";
+      var lex_ = ustr_.separate.apply( this, [ string, ope_reg_ ] );
+
+      // parse
+      var value_buf_ = [];
+      var ope_stack_ = [];
+      var is_value = false;
+      var is_operator = false;
+      for ( var i_=0; i_<lex_.length; i_++ ) {
+        var priority = ope_priorities_[ lex_[i_] ];
+        // this token is value
+        if ( "number" != typeof priority ) {
+          if ( is_value ) ope_stack_[ ope_stack_.length ] = opt_tacitness;
+          is_value = false;
+          is_operator = false;
+          if ( lex_[i_].match( /^[0-9]+\.[0-9]+$/ ) ) {
+            value_buf_[ value_buf_.length ] = parseFloat( lex_[i_] );
+          }
+          else if ( lex_[i_].match( /^[0-9]+$/ ) ) {
+            value_buf_[ value_buf_.length ] = parseInt( lex_[i_] );
+          }
+          else {
+            value_buf_[ value_buf_.length ] = lex_[i_];
+          }
+          is_value = true;
+        }
+        // this token is operator
+        else {
+          switch( lex_[i_] ) {
+          case '(':
+            if ( is_value ) ope_stack_[ ope_stack_.length ] = opt_tacitness;
+            is_value = false;
+            is_operator = false;
+            ope_stack_[ ope_stack_.length ] = lex_[i_];
+            break;
+          case ')':
+            is_value = false;
+            is_operator = false;
+            while( 0 < ope_stack_.length ){
+              var tmp_ = ope_stack_[ ope_stack_.length - 1 ];
+              ope_stack_.splice( ope_stack_.length - 1, 1 );
+              if ( '(' == tmp_ ) break;
+              value_buf_[ value_buf_.length ] = tmp_;
+            }
+            is_value = true;  // if there is value after this token, append tacitness operator.
+            break;
+          case ' ':
+            // do not anything (ignore)
+            break;
+          default:
+            if ( is_operator ) value_buf_[ value_buf_.length ] = null;
+            is_value = false;
+            is_operator = false;
+            
+            var prev_priority = ope_priorities_[ ope_stack_[ ope_stack_.length - 1 ] ];
+            if ( "number" != typeof prev_priority ) prev_priority = Number.MAX_SAFE_INTEGER;
+            // if token priority higher than priority of top of the stack, push it stack.
+            if ( prev_priority >= priority ) {
+              ope_stack_[ ope_stack_.length ] = lex_[i_];
+            }
+            // In other case, pop and append top of the stack to buffer. The token is pushed stack.
+            else {
+              value_buf_[ value_buf_.length ] = ope_stack_[ ope_stack_.length - 1 ];
+              ope_stack_[ ope_stack_.length - 1 ] = lex_[i_];
+            }
+            is_operator = true;
+            break;
+          }
+        }
+      }
+      if ( !is_value && is_operator ) ope_stack_[ ope_stack_.length ] = null;
+      while( 0 < ope_stack_.length ){
+        var tmp_ = ope_stack_[ ope_stack_.length - 1 ];
+        ope_stack_.splice( ope_stack_.length - 1, 1 );
+        if ( '(' == tmp_ ) continue;
+        value_buf_[ value_buf_.length ] = tmp_;
+      }
+
+      // generate objects
+      var calc_stack_ = [];
+      for ( var i_=0; i_<value_buf_.length; i_++ ) {
+        var priority = ope_priorities_[ ( value_buf_[i_] || "" ).toString() ];
+        // this is value
+        if ( "number" != typeof priority ) {
+          calc_stack_[ calc_stack_.length ] = value_buf_[i_];
+        }
+        // this is operator
+        else {
+          var obj_ = {};
+          var tmp_ = [];
+          var val1_ = calc_stack_[calc_stack_.length - 2];
+          var val2_ = calc_stack_[calc_stack_.length - 1];
+          calc_stack_.splice( calc_stack_.length - 2, 2 );
+          if ( "undefined" != typeof val1_ && null != val1_ ) tmp_[ tmp_.length ] = val1_;
+          if ( "undefined" != typeof val2_ && null != val2_ ) tmp_[ tmp_.length ] = val2_;
+          obj_[ value_buf_[i_] ] = tmp_;
+          calc_stack_[ calc_stack_.length ] = obj_;
+        }
+      }
+      if ( 0 == calc_stack_ || 1 < calc_stack_.length ) return null;
+      return calc_stack_[0];
     },
     /*----------------------------------------------------------
       This is alias from charAt().

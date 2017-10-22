@@ -12,7 +12,7 @@ $(function(){
 
   jsunit.initialize( {
     asserted: function( commect, testNo, assertNo, type, ans, res, output, isSuccess ){
-      output = output.replace( "&", "&amp;" ).replace( "<", "&lt;" ).replace( ">", "&gt;" ).replace( '"', "&quot;" ).replace( "'", "&#039;" );
+      output = output.replace( /&/g, "&amp;" ).replace( /</g, "&lt;" ).replace( />/g, "&gt;" ).replace( /"/g, "&quot;" ).replace( /'/g, "&#039;" );
       if ( !isSuccess ) {
         output = "<a name='"+testNo+"-"+assertNo+"'><span style='color:red'>"+output+"</span></a>";
         errorFragments[errorFragments.length] = testNo+"-"+assertNo;
@@ -4262,31 +4262,1986 @@ $(function(){
     function(){
       jsunit.assertEqual(
         $ustr.diffLine( "a", "a" ),
-        [{value:["a"], type:"="}],
+        [{value:"a", type:"="}],
         "1行"
       );
       jsunit.assertEqual(
         $ustr.diffLine( "a\nb", "a\nb" ),
-        [{value:["a\n","b"], type:"="}],
+        [{value:"a\nb", type:"="}],
         "2行"
       );
       jsunit.assertEqual(
         $ustr.diffLine( "a\n", "a\n" ),
-        [{value:["a\n"], type:"="}],
+        [{value:"a\n", type:"="}],
         "行末改行"
       );
       jsunit.assertEqual(
         $ustr.diffLine( "\na\n\n", "\na\n\n" ),
-        [{value:["\n","a\n","\n"], type:"="}],
+        [{value:"\na\n\n", type:"="}],
         "行頭改行・連続改行"
       );
       jsunit.assertEqual(
         $ustr.diffLine( "hello world\ndiff lines\nfoo\nbaz", "hello world\ndiff lines\nbar\nbaz" ),
-        [{value:["hello world\n","diff lines\n"], type:"="},{value:["foo\n"], type:"-"},{value:["bar\n"], type:"+"},{value:["baz"], type:"="}],
+        [{value:"hello world\ndiff lines\n", type:"="},{value:"foo\n", type:"-"},{value:"bar\n", type:"+"},{value:"baz", type:"="}],
         "行頭改行・連続改行"
       );
     },
     "diffLine"
+  );
+  jsunit.execTest(
+    function(){
+      jsunit.assertEqual(
+        $ustr.similarity( "aaa", "aaa" ),
+        1,
+        "完全一致"
+      );
+      jsunit.assertEqual(
+        $ustr.similarity( "aaa", "bbb" ),
+        0,
+        "完全不一致"
+      );
+      jsunit.assertEqual(
+        $ustr.similarity( "aaaa", "aabb" ),
+        0.5,
+        "半分一致1"
+      );
+      jsunit.assertEqual(
+        $ustr.similarity( "foo", "foobar" ),
+        0.5,
+        "半分一致2"
+      );
+      jsunit.assertEqual(
+        $ustr.similarity( "aaaa", "aa" ),
+        0.5,
+        "半分一致3"
+      );
+      jsunit.assertEqual(
+        $ustr.similarity( "aaaaaaaaaa", "bbaaaaaaaa" ),
+        0.8,
+        "8割一致"
+      );
+      jsunit.assertEqual(
+        $ustr.similarity( "apple", "approach" ),
+        0.375,
+        "実際の文字"
+      );
+      jsunit.assertEqual(
+        $ustr.similarity( "", "" ),
+        1,
+        "空文字同士"
+      );
+      jsunit.assertEqual(
+        $ustr.similarity( "", "aaa" ),
+        0,
+        "比較元が空文字"
+      );
+      jsunit.assertEqual(
+        $ustr.similarity( "aaa", "" ),
+        0,
+        "比較先が空文字"
+      );
+    },
+    "similarity"
+  );
+  jsunit.execTest(
+    function(){
+      jsunit.assertEqual(
+        $ustr.findBlock( 'abc"def"ghi' ),
+        [ "def" ],
+        "デフォルト1"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( 'abc"def"ghi"jkl"mnl' ),
+        [ "def", "jkl" ],
+        "デフォルト2"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( 'abc"def"ghi', '"', false ),
+        [ "def" ],
+        "囲み文字指定1"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( 'abc"def"ghi', '""', false ),
+        [ "def" ],
+        "囲み文字指定2"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( 'abc<def>ghi', '<>', false ),
+        [ "def" ],
+        "囲み文字指定3"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( 'abc?def?ghi', '?', false ),
+        [ "def" ],
+        "囲み文字指定4"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( 'abcHdefOghiGjklEmno', 'HOGE', false ),
+        [ "def" ],
+        "囲み文字指定5"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( '--"abc""def""ghi"--' ),
+        [ "abc\"def\"ghi" ],
+        "エスケープ1"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( "--\\\"abc\\\"def\\\"ghi\\\"--" ),
+        [ "abc\\", "ghi\\" ],
+        "エスケープ2"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( '--<abc<<def>>ghi>--', '<>', false, true, true ),
+        [ "abc<def>ghi" ],
+        "エスケープ3"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( '--<abc<<def>>ghi>--', '<>', false, false, true ),
+        [ "abc<<def" ],
+        "エスケープ4"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( "--<abc\\<def\\>ghi>--", '<>', false, true, true ),
+        [ "abc<def>ghi" ],
+        "エスケープ5"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( "--<abc\\<def\\>ghi>--", '<>', false, true, false ),
+        [ "abc\\<def\\" ],
+        "エスケープ6"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( "--<abc¥<def¥>ghi>--", '<>', false, true, true ),
+        [ "abc<def>ghi" ],
+        "エスケープ7"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( "--<abc¥<def¥>ghi>--", '<>', false, true, false ),
+        [ "abc¥<def¥" ],
+        "エスケープ8"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( '-""""-', '"', false, true, true ),
+        [ "\"" ],
+        "エスケープ9"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( '-<>><<>-', '<>', false, true, true ),
+        [ "><" ],
+        "エスケープ11"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( "-<\\>\\<>-", '<>', false, true, true ),
+        [ "><" ],
+        "エスケープ12"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( 'abcdefghijklmn' ),
+        [],
+        "囲み文字無し"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( 'abc"def' ),
+        [],
+        "囲み文字が開始だけ1"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( 'abc<def', "<>" ),
+        [],
+        "囲み文字が開始だけ2"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( 'abc>def', "<>" ),
+        [],
+        "囲み文字が終了だけ"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( 'abc<>def', "<>" ),
+        [ "" ],
+        "囲み文字内部が空文字"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( '<a<b<c<d>c>b>a>', "<>", true ),
+        [ "a<b<c<d>c>b>a" ],
+        "囲み文字のネスト"
+      );
+      jsunit.assertEqual(
+        $ustr.findBlock( '<a<b<c<d>c>b>a>', "<>", false ),
+        [ "a<b<c<d" ],
+        "囲み文字のネスト2"
+      );
+    },
+    "findBlock"
+  );
+  jsunit.execTest(
+    function(){
+      jsunit.assertEqual(
+        $ustr.parseCsv( "col1,col2,col3\n1,2,3" ),
+        [ [ "col1", "col2", "col3" ], [ "1", "2", "3" ] ],
+        "通常"
+      );
+      jsunit.assertEqual(
+        $ustr.parseCsv( "col1\tcol2\tcol3\n1\t2,3", "\t" ),
+        [ [ "col1", "col2", "col3" ], [ "1", "2,3" ] ],
+        "区切り文字の変更"
+      );
+      jsunit.assertEqual(
+        $ustr.parseCsv( "1,,3" ),
+        [ [ "1", "", "3" ] ],
+        "区切り文字間に値が無い時"
+      );
+      jsunit.assertEqual(
+        $ustr.parseCsv( "1,,3\n4,5,6,7" ),
+        [ [ "1", "", "3" ], [ "4", "5", "6", "7" ] ],
+        "正規化なし（デフォルト値）"
+      );
+      jsunit.assertEqual(
+        $ustr.parseCsv( "1,,3\n4,5,6,7", ",", false ),
+        [ [ "1", "", "3" ], [ "4", "5", "6", "7" ] ],
+        "正規化なし"
+      );
+      jsunit.assertEqual(
+        $ustr.parseCsv( "1,,3\n4,5,6,7", ",", true ),
+        [ [ "1", "", "3", null ], [ "4", "5", "6", "7" ] ],
+        "正規化"
+      );
+      jsunit.assertEqual(
+        $ustr.parseCsv( '1,"2",3' ),
+        [ [ "1", "2", "3" ] ],
+        "囲い文字1"
+      );
+      jsunit.assertEqual(
+        $ustr.parseCsv( '1,"2,3"' ),
+        [ [ "1", "2,3" ] ],
+        "囲い文字2"
+      );
+      jsunit.assertEqual(
+        $ustr.parseCsv( '1,"2,3\n4,5",6' ),
+        [ [ "1", "2,3\n4,5", "6" ] ],
+        "囲い文字3"
+      );
+      jsunit.assertEqual(
+        $ustr.parseCsv( '1,"2,3' ),
+        [ [ "1", "2,3" ] ],
+        "閉じない囲い文字1"
+      );
+      jsunit.assertEqual(
+        $ustr.parseCsv( '1,"2,3\n4,5' ),
+        [ [ "1", "2,3\n4,5" ] ],
+        "閉じない囲い文字2"
+      );
+      jsunit.assertEqual(
+        $ustr.parseCsv( ' 1 ,  "2"  ,  3   ' ),
+        [ [ "1", "2", "3" ] ],
+        "区切り文字の前後に空白・タブ"
+      );
+      jsunit.assertEqual(
+        $ustr.parseCsv( '1,"\"\"",3' ),
+        [ [ "1", '"', "3" ] ],
+        "エスケープ"
+      );
+    },
+    "parseCsv"
+  );
+  jsunit.execTest(
+    function(){
+      jsunit.assertEqual(
+        $ustr.escapeHtml( "abcdefg" ),
+        "abcdefg",
+        "通常"
+      );
+      jsunit.assertEqual(
+        $ustr.escapeHtml( "--&<>\"'&--" ),
+        "--&amp;&lt;&gt;&quot;&#039;&amp;--",
+        "エスケープ"
+      );
+    },
+    "escapeHtml"
+  );
+  jsunit.execTest(
+    function(){
+      jsunit.assertEqual(
+        $ustr.unescapeHtml( "abcdefg" ),
+        "abcdefg",
+        "通常"
+      );
+      jsunit.assertEqual(
+        $ustr.unescapeHtml( "--&amp;&lt;&gt;&quot;&#039;&amp;--" ),
+        "--&<>\"'&--",
+        "アンエスケープ"
+      );
+    },
+    "unescapeHtml"
+  );
+  jsunit.execTest(
+    function(){
+      jsunit.assertEqual(
+        $ustr.plural( "man" ),
+        "men",
+        "イレギュラー1"
+      );
+      jsunit.assertEqual(
+        $ustr.plural( "phenomenon" ),
+        "phenomena",
+        "イレギュラー2"
+      );
+      jsunit.assertEqual(
+        $ustr.plural( "safe" ),
+        "safes",
+        "イレギュラー3"
+      );
+      jsunit.assertEqual(
+        $ustr.plural( "radio" ),
+        "radios",
+        "os1"
+      );
+      jsunit.assertEqual(
+        $ustr.plural( "folio" ),
+        "folios",
+        "os2"
+      );
+      jsunit.assertEqual(
+        $ustr.plural( "studio" ),
+        "studios",
+        "os3"
+      );
+      jsunit.assertEqual(
+        $ustr.plural( "echo" ),
+        "echoes",
+        "es1"
+      );
+      jsunit.assertEqual(
+        $ustr.plural( "hero" ),
+        "heroes",
+        "es2"
+      );
+      jsunit.assertEqual(
+        $ustr.plural( "potato" ),
+        "potatoes",
+        "es3"
+      );
+      jsunit.assertEqual(
+        $ustr.plural( "library" ),
+        "libraries",
+        "ies1"
+      );
+      jsunit.assertEqual(
+        $ustr.plural( "baby" ),
+        "babies",
+        "ies2"
+      );
+      jsunit.assertEqual(
+        $ustr.plural( "knife" ),
+        "knives",
+        "ves1"
+      );
+      jsunit.assertEqual(
+        $ustr.plural( "leaf" ),
+        "leaves",
+        "ves2"
+      );
+      jsunit.assertEqual(
+        $ustr.plural( "book" ),
+        "books",
+        "other1"
+      );
+      jsunit.assertEqual(
+        $ustr.plural( "" ),
+        "s",
+        "空欄"
+      );
+    },
+    "plural"
+  );
+  jsunit.execTest(
+    function(){
+      jsunit.assertEqual(
+        $ustr.singular( "men" ),
+        "man",
+        "イレギュラー1"
+      );
+      jsunit.assertEqual(
+        $ustr.singular( "phenomena" ),
+        "phenomenon",
+        "イレギュラー2"
+      );
+      jsunit.assertEqual(
+        $ustr.singular( "safes" ),
+        "safe",
+        "イレギュラー3"
+      );
+      jsunit.assertEqual(
+        $ustr.singular( "radios" ),
+        "radio",
+        "os1"
+      );
+      jsunit.assertEqual(
+        $ustr.singular( "folios" ),
+        "folio",
+        "os2"
+      );
+      jsunit.assertEqual(
+        $ustr.singular( "studios" ),
+        "studio",
+        "os3"
+      );
+      jsunit.assertEqual(
+        $ustr.singular( "echoes" ),
+        "echo",
+        "es1"
+      );
+      jsunit.assertEqual(
+        $ustr.singular( "heroes" ),
+        "hero",
+        "es2"
+      );
+      jsunit.assertEqual(
+        $ustr.singular( "potatoes" ),
+        "potato",
+        "es3"
+      );
+      jsunit.assertEqual(
+        $ustr.singular( "libraries" ),
+        "library",
+        "ies1"
+      );
+      jsunit.assertEqual(
+        $ustr.singular( "babies" ),
+        "baby",
+        "ies2"
+      );
+      jsunit.assertEqual(
+        $ustr.singular( "knives" ),
+        "knife",
+        "ves1"
+      );
+      jsunit.assertEqual(
+        $ustr.singular( "leaves" ),
+        "leaf",
+        "ves2"
+      );
+      jsunit.assertEqual(
+        $ustr.singular( "books" ),
+        "book",
+        "other1"
+      );
+      jsunit.assertEqual(
+        $ustr.singular( "" ),
+        "",
+        "空欄"
+      );
+    },
+    "singular"
+  );
+  jsunit.execTest(
+    function(){
+      jsunit.assertEqual(
+        $ustr.kana( "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ" ),
+        "ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶ",
+        "通常"
+      );
+      jsunit.assertEqual(
+        $ustr.kana( "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポァィゥェォッャュョヰヱヴヵヶ" ),
+        "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポァィゥェォッャュョヰヱヴヵヶ",
+        "変換不要"
+      );
+    },
+    "kana"
+  );
+  jsunit.execTest(
+    function(){
+      jsunit.assertEqual(
+        $ustr.hiragana( "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポァィゥェォッャュョヰヱヴヵヶ" ),
+        "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんがぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽぁぃぅぇぉっゃゅょゐゑゔゕゖ",
+        "通常"
+      );
+      jsunit.assertEqual(
+        $ustr.hiragana( "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんがぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽぁぃぅぇぉっゃゅょゐゑゔゕゖ" ),
+        "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんがぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽぁぃぅぇぉっゃゅょゐゑゔゕゖ",
+        "変換不要"
+      );
+    },
+    "hiragana"
+  );
+  jsunit.execTest(
+    function(){
+      jsunit.assertEqual(
+        $ustr.en( "ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶ" ),
+        "ｧｱｨｲｩｳｪｴｫｵｶｶﾞｷｷﾞｸｸﾞｹｹﾞｺｺﾞｻｻﾞｼｼﾞｽｽﾞｾｾﾞｿｿﾞﾀﾀﾞﾁﾁﾞｯﾂﾂﾞﾃﾃﾞﾄﾄﾞﾅﾆﾇﾈﾉﾊﾊﾞﾊﾟﾋﾋﾞﾋﾟﾌﾌﾞﾌﾟﾍﾍﾞﾍﾟﾎﾎﾞﾎﾟﾏﾐﾑﾒﾓｬﾔｭﾕｮﾖﾗﾘﾙﾚﾛヮﾜヰヱｦﾝｳﾞヵヶ",
+        "カタカナ"
+      );
+      jsunit.assertEqual(
+        $ustr.en( "　！＃＄％＆（）＊＋／０１２３４５６７８９：；＜＝＞？＠＾＿｀｜￥’”、。「」『』〜ー" ),
+        " !#$%&()*+/0123456789:;<=>?@^_`|¥'\",.[]{}~-",
+        "数値、記号"
+      );
+      jsunit.assertEqual(
+        $ustr.en( "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ" ),
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        "英字"
+      );
+    },
+    "en"
+  );
+  jsunit.execTest(
+    function(){
+      jsunit.assertEqual(
+        $ustr.em( "ｦｧｨｩｪｫｬｭｮｯｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝｶﾞｷﾞｸﾞｹﾞｺﾞｻﾞｼﾞｽﾞｾﾞｿﾞﾀﾞﾁﾞﾂﾞﾃﾞﾄﾞﾊﾞﾋﾞﾌﾞﾍﾞﾎﾞﾊﾟﾋﾟﾌﾟﾍﾟﾎﾟ" ),
+        "ヲァィゥェォャュョッアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワンガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポ",
+        "カタカナ"
+      );
+      jsunit.assertEqual(
+        $ustr.em( " !#$%&()*+/0123456789:;<=>?@^_`|¥'\",.[]{}~-" ),
+        "　！＃＄％＆（）＊＋／０１２３４５６７８９：；＜＝＞？＠＾＿｀｜￥’”、。「」『』〜ー",
+        "数値、記号"
+      );
+      jsunit.assertEqual(
+        $ustr.em( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" ),
+        "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ",
+        "英字"
+      );
+    },
+    "em"
+  );
+  jsunit.execTest(
+    function(){
+      jsunit.assertEqual(
+        $ustr.caesarCipher( "ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶ", 1 ),
+        "アィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶァ",
+        "カタカナ+1"
+      );
+      jsunit.assertEqual(
+        $ustr.caesarCipher( "ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶ", -1 ),
+        "ヶァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵ",
+        "カタカナ-1"
+      );
+      jsunit.assertEqual(
+        $ustr.caesarCipher( "ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶ", 86 ),
+        "ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶ",
+        "カタカナ+一周"
+      );
+      jsunit.assertEqual(
+        $ustr.caesarCipher( "ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶ", 87 ),
+        "アィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶァ",
+        "カタカナ+一周+1"
+      );
+      jsunit.assertEqual(
+        $ustr.caesarCipher( "ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶ", -86 ),
+        "ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶ",
+        "カタカナ-一周"
+      );
+      jsunit.assertEqual(
+        $ustr.caesarCipher( "ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶ", -87 ),
+        "ヶァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵ",
+        "カタカナ-一周+1"
+      );
+      jsunit.assertEqual(
+        $ustr.caesarCipher( "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ", 1 ),
+        "あぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖぁ",
+        "平仮名+1"
+      );
+      jsunit.assertEqual(
+        $ustr.caesarCipher( "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ", 1 ),
+        "ｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚａ",
+        "全角英字小文字+1"
+      );
+      jsunit.assertEqual(
+        $ustr.caesarCipher( "ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ", 1 ),
+        "ＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺＡ",
+        "全角英字大文字+1"
+      );
+      jsunit.assertEqual(
+        $ustr.caesarCipher( "ｦｧｨｩｪｫｬｭｮｯｰｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ", 1 ),
+        "ｧｨｩｪｫｬｭｮｯｰｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝｦ",
+        "半角かな+1"
+      );
+      jsunit.assertEqual(
+        $ustr.caesarCipher( " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~", 1 ),
+        "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ ",
+        "半角アルファベット+1"
+      );
+      jsunit.assertEqual(
+        $ustr.caesarCipher( "０１２３４５６７８９", 1 ),
+        "１２３４５６７８９０",
+        "全角数値+1"
+      );
+      jsunit.assertEqual(
+        $ustr.caesarCipher( "1＋１＊a＠AａＡあｱア", 1 ),
+        "2＋２＊b＠BｂＢぃｲィ",
+        "混在"
+      );
+    },
+    "caesarCipher"
+  );
+  jsunit.execTest(
+    function(){
+      jsunit.assertEqual(
+        $ustr.leet( "abcdefghijklmnopqrstuvwxyz" ),
+        "46cd3fgh1jklmn0p9r57uvwxy2",
+        "通常"
+      );
+    },
+    "leet"
+  );
+  jsunit.execTest(
+    function(){
+      var now = new Date();
+      jsunit.assertEqual(
+        $ustr.formats( "%d", 123 ),
+        "123",
+        "通常"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%5d", 123 ),
+        "  123",
+        "フィールド幅"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%0d", 123 ),
+        "123",
+        "0ディレクティブ"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%05d", 123 ),
+        "00123",
+        "0ディレクティブとフィールド幅"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%-d", 123 ),
+        "123",
+        "-ディレクティブ"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%-5d", 123 ),
+        "123  ",
+        "-ディレクティブとフィールド幅"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%+d", 123 ),
+        "+123",
+        "+ディレクティブ"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%+5d", 123 ),
+        " +123",
+        "+ディレクティブとフィールド幅"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "% d", 123 ),
+        "123",
+        "' 'ディレクティブ"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "% 5d", 123 ),
+        "  123",
+        "' 'ディレクティブとフィールド幅"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%+ 5d", 123 ),
+        "+ 123",
+        "' 'と+ディレクティブとフィールド幅"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%o", 123 ),
+        "173",
+        "8進数"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%x", 123 ),
+        "7b",
+        "16進数"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%X", 123 ),
+        "7B",
+        "16進数(大)"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%#d", 123 ),
+        "123",
+        "#ディレクティブと10進数"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%#o", 123 ),
+        "0173",
+        "#ディレクティブと8進数"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%#x", 123 ),
+        "0x7b",
+        "#ディレクティブと16進数"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%#X", 123 ),
+        "0x7B",
+        "#ディレクティブと16進数(大)"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%%d%d-%d", 123 ),
+        "%d123-123",
+        "%%とパラメータ不足"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%.1d", 123.456 ),
+        "123.4",
+        "小数部のフィールド幅が小さい"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%.5d", 123.456 ),
+        "123.45600",
+        "小数部のフィールド幅が大きい"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%0.d", 123.456 ),
+        "123.456",
+        "0パディングでフィールド幅指定なし"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%09.d", 123.456 ),
+        "00123.456",
+        "0パディングでフィールド幅大"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "% 9.d", 123.456 ),
+        "  123.456",
+        "空白パディングでフィールド幅大"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "% 9.d", -123.456 ),
+        "- 123.456",
+        "空白パディングでフィールド幅大、符号あり"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "% 09.d", -123.456 ),
+        "-0123.456",
+        "0パディングでフィールド幅大、符号あり"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%#+.X", 255.0 ),
+        "+0xFF",
+        "16進数符号・小数あり"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%#+.X", 255.1 ),
+        "+0xFF.199999999998",
+        "16進数符号・小数フィールド大きい"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%#+.2X", 255.1 ),
+        "+0xFF.19",
+        "16進数符号・小数フィールド指定"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%#+ 9.X", -1.0 ),
+        "-0x     1",
+        "16進数符号・小数あり、フィールド幅大、符号間にスペース"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%#+9.X", -1.0 ),
+        "     -0x1",
+        "16進数符号・小数あり、フィールド幅大"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%#+-9.X", -1.0 ),
+        "-0x1     ",
+        "16進数符号・小数あり、フィールド幅大、左寄せ"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "% 12.d", -NaN ),
+        "         NaN",
+        "-NaNで符号フィールド大"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "% 12.d", -Infinity ),
+        "-   Infinity",
+        "-Infinityで符号フィールド大"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%12.2d", -Infinity ),
+        "   -Infinity",
+        "-Infinityで符号と小数フィールド大"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "% 12.2d", -Infinity ),
+        "-   Infinity",
+        "-Infinityで符号と小数フィールド大"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%s%s%s", [ "a", "b", "c" ] ),
+        "abc",
+        "パラメータが配列"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( [ "%s%s%s", "a", "b", "c" ] ),
+        "abc",
+        "引数が配列"
+      );
+      // %d
+      jsunit.assertEqual(
+        $ustr.formats( "%d", 123 ),
+        "123",
+        "%dに整数"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%d", 123.456 ),
+        "123",
+        "%dに小数"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%d", "" ),
+        "NaN",
+        "%dに空文字"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%d", null ),
+        "NaN",
+        "%dにnull"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%d", NaN ),
+        "NaN",
+        "%dにNaN"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%d", Infinity ),
+        "Infinity",
+        "%dにInfinity"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%d", -Infinity ),
+        "-Infinity",
+        "%dに-Infinity"
+      );      
+      jsunit.assertEqual(
+        $ustr.formats( "%d", "123.456" ),
+        "123",
+        "%dに文字列"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%d", now ),
+        now.getDate().toString(),
+        "%dに日付"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%.d", 123.456 ),
+        "123.456",
+        "%.dに小数"
+      );
+      // %o
+      jsunit.assertEqual(
+        $ustr.formats( "%o", 64 ),
+        "100",
+        "%oに整数"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%o", 65.123 ),
+        "101",
+        "%oに小数"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%.o", 65.123 ),
+        "101.0767635544264164",
+        "%.oに小数"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%o", "" ),
+        "NaN",
+        "%oに空文字"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%o", null ),
+        "NaN",
+        "%oにnull"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%o", NaN ),
+        "NaN",
+        "%oにNaN"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%o", Infinity ),
+        "Infinity",
+        "%oにInfinity"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%o", -Infinity ),
+        "-Infinity",
+        "%oに-Infinity"
+      );      
+      jsunit.assertEqual(
+        $ustr.formats( "%o", "66.123" ),
+        "102",
+        "%oに文字列"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%o", now ),
+        now.getTime().toString( 8 ),
+        "%oに日付"
+      );
+      // %x
+      jsunit.assertEqual(
+        $ustr.formats( "%x", 65535 ),
+        "ffff",
+        "%xに整数"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%x", 65535.123 ),
+        "ffff",
+        "%xに小数"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%.x", 65535.123 ),
+        "ffff.1f7ced9168",
+        "%.xに小数"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%x", "" ),
+        "NaN",
+        "%xに空文字"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%x", null ),
+        "NaN",
+        "%xにnull"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%x", NaN ),
+        "NaN",
+        "%xにNaN"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%x", Infinity ),
+        "Infinity",
+        "%xにInfinity"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%x", -Infinity ),
+        "-Infinity",
+        "%xに-Infinity"
+      );      
+      jsunit.assertEqual(
+        $ustr.formats( "%x", "65535.123" ),
+        "ffff",
+        "%xに文字列"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%x", now ),
+        now.getTime().toString( 16 ),
+        "%xに日付"
+      );
+      // %X
+      jsunit.assertEqual(
+        $ustr.formats( "%X", 65535 ),
+        "FFFF",
+        "%Xに整数"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%X", 65535.123 ),
+        "FFFF",
+        "%Xに小数"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%.X", 65535.123 ),
+        "FFFF.1F7CED9168",
+        "%.Xに小数"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%X", "" ),
+        "NaN",
+        "%Xに空文字"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%X", null ),
+        "NaN",
+        "%Xにnull"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%X", NaN ),
+        "NaN",
+        "%XにNaN"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%X", Infinity ),
+        "Infinity",
+        "%XにInfinity"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%X", -Infinity ),
+        "-Infinity",
+        "%Xに-Infinity"
+      );      
+      jsunit.assertEqual(
+        $ustr.formats( "%X", "65535.123" ),
+        "FFFF",
+        "%Xに文字列"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%X", now ),
+        now.getTime().toString( 16 ).toUpperCase(),
+        "%Xに日付"
+      );
+      // %f
+      jsunit.assertEqual(
+        $ustr.formats( "%f", 123.456 ),
+        "123.456",
+        "%fに小数"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%f", 123 ),
+        "123.0",
+        "%fに整数"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%f", "123.456" ),
+        "123.456",
+        "%.fに文字列"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%f", "" ),
+        "NaN",
+        "%.fに空文字"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%f", null ),
+        "NaN",
+        "%.fにnull"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%f", NaN ),
+        "NaN",
+        "%.fにNaN"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%f", Infinity ),
+        "Infinity",
+        "%.fにInfinity"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%f", -Infinity ),
+        "-Infinity",
+        "%.fに-Infinity"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%f", now ),
+        now.getTime().toString() + ".0",
+        "%fに日付"
+      );
+      // %g
+      jsunit.assertEqual(
+        $ustr.formats( "%g", 123 ),
+        "1e+2",
+        "%gに整数"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%g", 123.456 ),
+        "1e+2",
+        "%gに小数"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%.g", 123.456 ),
+        "1.23456e+2",
+        "%.gに小数"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%.3g", 123.456 ),
+        "1.235e+2",
+        "%.gに小数2"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%g", "" ),
+        "NaN",
+        "%gに空文字"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%g", null ),
+        "NaN",
+        "%gにnull"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%g", NaN ),
+        "NaN",
+        "%gにNaN"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%g", Infinity ),
+        "Infinity",
+        "%gにInfinity"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%g", -Infinity ),
+        "-Infinity",
+        "%gに-Infinity"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%g", "123.456" ),
+        "1e+2",
+        "%gに文字列"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%g", now ),
+        now.getTime().toExponential( 0 ),
+        "%gに日付"
+      );
+      // %s
+      jsunit.assertEqual(
+        $ustr.formats( "%s", 123 ),
+        "123",
+        "%sに数値"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%s", "123" ),
+        "123",
+        "%sに文字列"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%s", now ),
+        now.toISOString(),
+        "%sに日付時刻"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%s", "" ),
+        "",
+        "%sに空文字"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%s", null ),
+        "NULL",
+        "%sにnull"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%s", NaN ),
+        "NaN",
+        "%sにNaN"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%s", Infinity ),
+        "Infinity",
+        "%sにInfinity"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%s", -Infinity ),
+        "-Infinity",
+        "%sに-Infinity"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%s", undefined ),
+        "undefined",
+        "%sにundefined"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%#s", 123 ),
+        "123",
+        "%sに符号付き"
+      );
+      // %Y
+      jsunit.assertEqual(
+        $ustr.formats( "%Y", now ),
+        now.getFullYear().toString(),
+        "%Yに日付時刻"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%Y", 2017 ),
+        "2017",
+        "%Yに数値"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%Y", 0 ),
+        "1900",
+        "%Yに数値2"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%Y", 99 ),
+        "1999",
+        "%Yに数値3"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%Y", 12345 ),
+        "1970",
+        "%Yに数値4"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%Y", -1 ),
+        "NaN",
+        "%Yに数値5"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%Y", "2017/10/28" ),
+        "2017",
+        "%Yに文字列"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%Y", "" ),
+        "NaN",
+        "%Yに空文字"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%Y", null ),
+        "NaN",
+        "%Yにnull"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%Y", NaN ),
+        "NaN",
+        "%YにNaN"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%Y", Infinity ),
+        "NaN",
+        "%YにInfinity"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%Y", -Infinity ),
+        "NaN",
+        "%Yに-Infinity"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%Y", undefined ),
+        "NaN",
+        "%Yにundefined"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%#Y", 2017 ),
+        "2017",
+        "%Yに符号付き"
+      );
+      // %y
+      jsunit.assertEqual(
+        $ustr.formats( "%y", now ),
+        now.getFullYear().toString().slice( 2 ),
+        "%yに日付時刻"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%y", 2017 ),
+        "17",
+        "%yに数値"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%y", 0 ),
+        "00",
+        "%yに数値2"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%y", 99 ),
+        "99",
+        "%yに数値3"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%y", 12345 ),
+        "70",
+        "%yに数値4"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%y", -1 ),
+        "NaN",
+        "%yに数値5"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%y", "2017/10/28" ),
+        "17",
+        "%yに文字列"
+      );
+      // %m
+      jsunit.assertEqual(
+        $ustr.formats( "%m", now ),
+        (now.getMonth()+1).toString(),
+        "%mに日付時刻"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%m", 1 ),
+        "1",
+        "%mに数値"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%m", 0 ),
+        "12",
+        "%mに数値2"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%m", 12 ),
+        "12",
+        "%mに数値3"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%m", 13 ),
+        "1",
+        "%mに数値4"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%m", 26 ),
+        "2",
+        "%mに数値5"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%m", -1 ),
+        "NaN",
+        "%mに数値6"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%m", 200 ),
+        "1",
+        "%mに数値7"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%m", "2017/10/28" ),
+        "10",
+        "%mに文字列"
+      );
+      // %B
+      jsunit.assertEqual(
+        $ustr.formats( "%B", now ),
+        [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ][ now.getMonth() ],
+        "%Bに日付時刻"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%B", 1 ),
+        "January",
+        "%Bに数値"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%B", 0 ),
+        "December",
+        "%Bに数値2"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%B", 12 ),
+        "December",
+        "%Bに数値3"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%B", "2017/10/28" ),
+        "October",
+        "%Bに文字列"
+      );
+      // %b
+      jsunit.assertEqual(
+        $ustr.formats( "%b", now ),
+        [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ][ now.getMonth() ],
+        "%bに日付時刻"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%b", 1 ),
+        "Jan",
+        "%bに数値"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%b", 0 ),
+        "Dec",
+        "%bに数値2"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%b", 12 ),
+        "Dec",
+        "%bに数値3"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%b", "2017/10/28" ),
+        "Oct",
+        "%bに文字列"
+      );
+      // %j
+      jsunit.assertEqual(
+        $ustr.formats( "%j", new Date( 2017, 0, 1 ) ),
+        "1",
+        "%jに日付時刻"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%j", new Date( 2017, 0, 2 ) ),
+        "2",
+        "%jに日付時刻2"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%j", new Date( 2017, 11, 31 ) ),
+        "365",
+        "%jに日付時刻3"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%j", new Date( 2017, 0, 1, 23, 59, 59, 999 ) ),
+        "1",
+        "%jに日付時刻4"
+      );
+      // %w
+      jsunit.assertEqual(
+        $ustr.formats( "%w", new Date( 2017, 9, 18 ) ),
+        "3",
+        "%wに日付時刻"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%w", new Date( 2017, 9, 1 ) ),
+        "0",
+        "%wに日付時刻2"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%w", new Date( 2017, 9, 14 ) ),
+        "6",
+        "%wに日付時刻3"
+      );
+      // %A
+      jsunit.assertEqual(
+        $ustr.formats( "%A", new Date( 2017, 9, 18 ) ),
+        "Wednesday",
+        "%Aに日付時刻"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%A", new Date( 2017, 9, 1 ) ),
+        "Sunday",
+        "%Aに日付時刻2"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%A", new Date( 2017, 9, 14 ) ),
+        "Saturday",
+        "%Aに日付時刻3"
+      );
+      // %a
+      jsunit.assertEqual(
+        $ustr.formats( "%a", new Date( 2017, 9, 18 ) ),
+        "Wed",
+        "%aに日付時刻"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%a", new Date( 2017, 9, 1 ) ),
+        "Sun",
+        "%aに日付時刻2"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%a", new Date( 2017, 9, 14 ) ),
+        "Sat",
+        "%aに日付時刻3"
+      );
+      // %V
+      jsunit.assertEqual(
+        $ustr.formats( "%V", new Date( 2016, 0, 1 ) ),
+        "53",
+        "%Vに日付時刻 2016/1/1(金)は2015年の最後の週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%V", new Date( 2016, 0, 3 ) ),
+        "53",
+        "%Vに日付時刻 2016/1/3(日)は2015年の最後の週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%V", new Date( 2016, 0, 4 ) ),
+        "1",
+        "%Vに日付時刻 2016/1/4(月)は2016年の最初の週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%V", new Date( 2016, 0, 10 ) ),
+        "1",
+        "%Vに日付時刻 2016/1/10(日)は2016年の最初の週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%V", new Date( 2016, 0, 11 ) ),
+        "2",
+        "%Vに日付時刻 2016/1/11(月)は2016年の第2週"
+      );      
+      jsunit.assertEqual(
+        $ustr.formats( "%V", new Date( 2017, 0, 1 ) ),
+        "52",
+        "%Vに日付時刻 2017/1/1(日)は2016年の最後の週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%V", new Date( 2017, 0, 2 ) ),
+        "1",
+        "%Vに日付時刻 2017/1/2(月)は2017年の最初の週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%V", new Date( 2017, 11, 31 ) ),
+        "52",
+        "%Vに日付時刻 2017/12/31(日)は2017年の最後の週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%V", new Date( 2018, 11, 23 ) ),
+        "51",
+        "%Vに日付時刻 2018/12/23(日)は2018年の最後の週の前週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%V", new Date( 2018, 11, 24 ) ),
+        "52",
+        "%Vに日付時刻 2018/12/24(月)は2018年の最後の週の最初の日"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%V", new Date( 2018, 11, 30 ) ),
+        "52",
+        "%Vに日付時刻 2018/12/30(日)は2018年の最後の週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%V", new Date( 2018, 11, 31 ) ),
+        "1",
+        "%Vに日付時刻 2018/12/31(月)は2019年の最初の週に含まれる"
+      );
+      // %U
+      jsunit.assertEqual(
+        $ustr.formats( "%U", new Date( 2016, 0, 1 ) ),
+        "52",
+        "%Uに日付時刻 2016/1/1(金)は2015年の最後の週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%U", new Date( 2016, 0, 3 ) ),
+        "1",
+        "%Uに日付時刻 2016/1/3(日)は2016年の最初の週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%U", new Date( 2016, 0, 4 ) ),
+        "1",
+        "%Uに日付時刻 2016/1/4(月)は2016年の最初の週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%U", new Date( 2016, 0, 10 ) ),
+        "2",
+        "%Uに日付時刻 2016/1/10(日)は2016年の第2週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%U", new Date( 2016, 0, 11 ) ),
+        "2",
+        "%Uに日付時刻 2016/1/11(月)は2016年の第2週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%U", new Date( 2017, 0, 1 ) ),
+        "1",
+        "%Uに日付時刻 2017/1/1(日)は2017年の最初の週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%U", new Date( 2017, 0, 2 ) ),
+        "1",
+        "%Uに日付時刻 2017/1/2(月)は2017年の最初の週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%U", new Date( 2017, 11, 31 ) ),
+        "53",
+        "%Uに日付時刻 2017/12/31(日)は2017年の最後の週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%U", new Date( 2018, 11, 23 ) ),
+        "51",
+        "%Uに日付時刻 2018/12/23(日)は2018年の最後の週の前週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%U", new Date( 2018, 11, 24 ) ),
+        "51",
+        "%Uに日付時刻 2018/12/24(月)は2018年の最後の週の前週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%U", new Date( 2018, 11, 30 ) ),
+        "52",
+        "%Uに日付時刻 2018/12/30(日)は2018年の最後の週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%U", new Date( 2018, 11, 31 ) ),
+        "52",
+        "%Uに日付時刻 2018/12/31(月)は2018年の最後の週"
+      );
+      // %W
+      jsunit.assertEqual(
+        $ustr.formats( "%W", new Date( 2016, 0, 1 ) ),
+        "52",
+        "%Wに日付時刻 2016/1/1(金)は2015年の最後の週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%W", new Date( 2016, 0, 3 ) ),
+        "52",
+        "%Wに日付時刻 2016/1/3(日)は2015年の最後の週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%W", new Date( 2016, 0, 4 ) ),
+        "1",
+        "%Wに日付時刻 2016/1/4(月)は2016年の最初の週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%W", new Date( 2016, 0, 10 ) ),
+        "1",
+        "%Wに日付時刻 2016/1/10(日)は2016年の第1週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%W", new Date( 2016, 0, 11 ) ),
+        "2",
+        "%Wに日付時刻 2016/1/11(月)は2016年の第2週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%W", new Date( 2017, 0, 1 ) ),
+        "52",
+        "%Wに日付時刻 2017/1/1(日)は2016年の最後の週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%W", new Date( 2017, 0, 2 ) ),
+        "1",
+        "%Wに日付時刻 2017/1/2(月)は2017年の最初の週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%W", new Date( 2017, 11, 31 ) ),
+        "52",
+        "%Wに日付時刻 2017/12/31(日)は2017年の最後の週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%W", new Date( 2018, 11, 23 ) ),
+        "51",
+        "%Wに日付時刻 2018/12/23(日)は2018年の最後の週の前々週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%W", new Date( 2018, 11, 24 ) ),
+        "52",
+        "%Wに日付時刻 2018/12/24(月)は2018年の最後の前週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%W", new Date( 2018, 11, 30 ) ),
+        "52",
+        "%Wに日付時刻 2018/12/30(日)は2018年の最後の前週"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%W", new Date( 2018, 11, 31 ) ),
+        "53",
+        "%Wに日付時刻 2018/12/31(月)は2018年の最後の週"
+      );
+      // %H
+      jsunit.assertEqual(
+        $ustr.formats( "%H", new Date( 2017, 0, 1, 0, 0, 0 ) ),
+        "0",
+        "%H 0時"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%02H", new Date( 2017, 0, 1, 0, 0, 0 ) ),
+        "00",
+        "%H 00時"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%H", new Date( 2017, 0, 1, 1, 0, 0 ) ),
+        "1",
+        "%H 1時"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%02H", new Date( 2017, 0, 1, 1, 0, 0 ) ),
+        "01",
+        "%H 01時"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%02H", new Date( 2017, 0, 1, 12, 0, 0 ) ),
+        "12",
+        "%H 12時"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%02H", new Date( 2017, 0, 1, 23, 0, 0 ) ),
+        "23",
+        "%H 23時"
+      );
+      // %l
+      jsunit.assertEqual(
+        $ustr.formats( "%l", new Date( 2017, 0, 1, 12, 0, 0 ) ),
+        "12",
+        "%l 12時"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%02l", new Date( 2017, 0, 1, 0, 0, 0 ) ),
+        "12",
+        "%l 12時"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%l", new Date( 2017, 0, 1, 1, 0, 0 ) ),
+        "1",
+        "%l 1時"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%02l", new Date( 2017, 0, 1, 13, 0, 0 ) ),
+        "01",
+        "%l 13時"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%02l", new Date( 2017, 0, 1, 12, 0, 0 ) ),
+        "12",
+        "%l 12時"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%02l", new Date( 2017, 0, 1, 23, 0, 0 ) ),
+        "11",
+        "%l 23時"
+      );
+      // %M
+      jsunit.assertEqual(
+        $ustr.formats( "%M", new Date( 2017, 0, 1, 0, 0, 0 ) ),
+        "0",
+        "%M 0分"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%02M", new Date( 2017, 0, 1, 0, 0, 0 ) ),
+        "00",
+        "%M 00分"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%M", new Date( 2017, 0, 1, 0, 1, 0 ) ),
+        "1",
+        "%M 1分"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%02M", new Date( 2017, 0, 1, 0, 1, 0 ) ),
+        "01",
+        "%M 01分"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%02M", new Date( 2017, 0, 1, 0, 59, 0 ) ),
+        "59",
+        "%M 59分"
+      );
+      // %S
+      jsunit.assertEqual(
+        $ustr.formats( "%S", new Date( 2017, 0, 1, 0, 0, 0 ) ),
+        "0",
+        "%S 0秒"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%02S", new Date( 2017, 0, 1, 0, 0, 0 ) ),
+        "00",
+        "%S 00秒"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%S", new Date( 2017, 0, 1, 0, 0, 1 ) ),
+        "1",
+        "%S 1秒"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%02S", new Date( 2017, 0, 1, 0, 0, 1 ) ),
+        "01",
+        "%S 01秒"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%02S", new Date( 2017, 0, 1, 0, 0, 59 ) ),
+        "59",
+        "%S 59秒"
+      );
+      // %N
+      jsunit.assertEqual(
+        $ustr.formats( "%N", new Date( 2017, 0, 1, 0, 0, 0, 0 ) ),
+        "0",
+        "%N 0ミリ秒"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%03N", new Date( 2017, 0, 1, 0, 0, 0, 1 ) ),
+        "001",
+        "%N 1ミリ秒"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%03N", new Date( 2017, 0, 1, 0, 0, 0, 23 ) ),
+        "023",
+        "%N 23ミリ秒"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%03N", new Date( 2017, 0, 1, 0, 0, 0, 456 ) ),
+        "456",
+        "%N 456ミリ秒"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%03N", new Date( 2017, 0, 1, 0, 0, 0, 999 ) ),
+        "999",
+        "%N 999ミリ秒"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%03L", new Date( 2017, 0, 1, 0, 0, 0, 999 ) ),
+        "999",
+        "%L 999ミリ秒"
+      );
+      // %P
+      jsunit.assertEqual(
+        $ustr.formats( "%P", new Date( 2017, 0, 1, 0 ) ),
+        "am",
+        "%P 0時"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%P", new Date( 2017, 0, 1, 11 ) ),
+        "am",
+        "%P 11時"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%P", new Date( 2017, 0, 1, 12 ) ),
+        "pm",
+        "%P 12時"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%P", new Date( 2017, 0, 1, 23 ) ),
+        "pm",
+        "%P 23時"
+      );
+      // %p
+      jsunit.assertEqual(
+        $ustr.formats( "%p", new Date( 2017, 0, 1, 0 ) ),
+        "AM",
+        "%p 0時"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%p", new Date( 2017, 0, 1, 11 ) ),
+        "AM",
+        "%p 11時"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%p", new Date( 2017, 0, 1, 12 ) ),
+        "PM",
+        "%p 12時"
+      );
+      jsunit.assertEqual(
+        $ustr.formats( "%p", new Date( 2017, 0, 1, 23 ) ),
+        "PM",
+        "%p 23時"
+      );
+      // 混在
+      jsunit.assertEqual(
+        $ustr.formats( "%04Y/%02m/%02d(%9A) %p %02H:%02M:%02S.%03N", new Date( 2017, 8, 24, 15, 3, 10, 123 ) ),
+        "2017/09/24(   Sunday) PM 15:03:10.123",
+        "混在"
+      );
+      // %Z
+      jsunit.assertEqual(
+        $ustr.formats( "%Z", new Date( 2017, 0, 1, 0 ) ),
+        "JST",
+        "%Z timezone"
+      );
+      // %z
+      jsunit.assertEqual(
+        $ustr.formats( "%z", new Date( 2017, 0, 1, 0 ) ),
+        "09:00",
+        "%z timezone"
+      );
+      // %F
+      jsunit.assertEqual(
+        $ustr.formats( "%F", new Date( 2017, 8, 6 ) ),
+        "2017-09-06",
+        "%F"
+      );
+      // %D
+      jsunit.assertEqual(
+        $ustr.formats( "%D", new Date( 2017, 8, 6 ) ),
+        "09/06/2017",
+        "%D"
+      );
+      // %v
+      jsunit.assertEqual(
+        $ustr.formats( "%v", new Date( 2017, 8, 6 ) ),
+        "Sep-06-2017",
+        "%v"
+      );
+      // %T
+      jsunit.assertEqual(
+        $ustr.formats( "%T", new Date( 2017, 8, 6, 13, 5, 32 ) ),
+        "13:05:32",
+        "%T"
+      );
+      // %r
+      jsunit.assertEqual(
+        $ustr.formats( "%r", new Date( 2017, 8, 6, 13, 5, 32 ) ),
+        "01:05:32 PM",
+        "%r"
+      );
+    },
+    "formats"
+  );
+  jsunit.execTest(
+    function(){
+      jsunit.assertEqual(
+        $ustr.separate( "abc123def456ghi", "123" ),
+        [ "abc", "123", "def456ghi" ],
+        "通常"
+      );
+      jsunit.assertEqual(
+        $ustr.separate( "abc123def456ghi", /[0-9]{3}/ ),
+        [ "abc", "123", "def", "456", "ghi" ],
+        "複数"
+      );
+      jsunit.assertEqual(
+        $ustr.separate( "abc123def456ghi", /[0-9]/ ),
+        [ "abc", "1", "2", "3", "def", "4", "5", "6", "ghi" ],
+        "複数2"
+      );
+      jsunit.assertEqual(
+        $ustr.separate( "123abcd456", /(abc|abcd)/ ),
+        [ "123", "abc", "d456" ],
+        "複数3"
+      );
+      jsunit.assertEqual(
+        $ustr.separate( "123abcd456", /(abcd|abc)/ ),
+        [ "123", "abcd", "456" ],
+        "複数4"
+      );
+    },
+    "separate"
+  );
+  jsunit.execTest(
+    function(){
+      jsunit.assertEqual(
+        $ustr.parseFormula( "1+2" ),
+        { "+": [ 1, 2 ] },
+        "1+2"
+      );
+      jsunit.assertEqual(
+        $ustr.parseFormula( "1+2+3" ),
+        { "+":[ 1, { "+": [ 2, 3 ] } ] },
+        "1+2+3"
+      );
+      jsunit.assertEqual(
+        $ustr.parseFormula( "1*2+3" ),
+        { "+":[ { "*": [ 1, 2 ] }, 3 ] },
+        "1*2+3"
+      );
+      jsunit.assertEqual(
+        $ustr.parseFormula( "1+2*3" ),
+        { "+":[ 1, { "*": [ 2, 3 ] } ] },
+        "1+2*3"
+      );
+      jsunit.assertEqual(
+        $ustr.parseFormula( "1*(2+3)*4" ),
+        {"*":[1,{"*":[{"+":[2,3]},4]}]},
+        "1*(2+3)*4"
+      );
+      jsunit.assertEqual(
+        $ustr.parseFormula( "3!" ),
+        {"!":[3]},
+        "3!"
+      );
+      jsunit.assertEqual(
+        $ustr.parseFormula( "1+3!" ),
+        {"+":[ 1, {"!":[3]} ]},
+        "1+3!"
+      );
+      jsunit.assertEqual(
+        $ustr.parseFormula( "3!+1" ),
+        {"+":[ {"!":[3]}, 1 ] },
+        "3!+1"
+      );
+      jsunit.assertEqual(
+        $ustr.parseFormula( "3!*5!" ),
+        { "*":[{"!":[3]}, {"!":[5]}]},
+        "3!5!"
+      );
+      jsunit.assertEqual(
+        $ustr.parseFormula( "sin(90)" ),
+        {"sin":[90]},
+        "sin(90)"
+      );
+      jsunit.assertEqual(
+        $ustr.parseFormula( "sin(90*3.14/180)" ),
+        {"sin":[ {"*":[90,{"/":[ 3.14, 180 ]}]} ]},
+        "sin(90*3.14/180)"
+      );
+      jsunit.assertEqual(
+        $ustr.parseFormula( "1+sin(90)" ),
+        {"+":[1,{"sin":[90]}]},
+        "1+sin(90)"
+      );
+      jsunit.assertEqual(
+        $ustr.parseFormula( "sin(90)+1" ),
+        {"+":[{"sin":[90]},1]},
+        "sin(90)+1"
+      );
+      jsunit.assertEqual(
+        $ustr.parseFormula( "3N" ),
+        {"*":[3,"N"]},
+        "3N"
+      );
+      jsunit.assertEqual(
+        $ustr.parseFormula( "1+3N" ),
+        {"+":[ 1, {"*":[3,"N"]} ]},
+        "1+3N"
+      );
+      jsunit.assertEqual(
+        $ustr.parseFormula( "3N+1" ),
+        {"+":[ {"*":[3,"N"]}, 1 ] },
+        "3N+1"
+      );
+    },
+    "parseFormula"
   );
   /*
   jsunit.execTest(

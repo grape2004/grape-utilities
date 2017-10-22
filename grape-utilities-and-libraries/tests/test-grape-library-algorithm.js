@@ -12,7 +12,7 @@ $(function(){
   
     jsunit.initialize( {
       asserted: function( commect, testNo, assertNo, type, ans, res, output, isSuccess ){
-        output = output.replace( "&", "&amp;" ).replace( "<", "&lt;" ).replace( ">", "&gt;" ).replace( '"', "&quot;" ).replace( "'", "&#039;" );
+        output = output.replace( /&/g, "&amp;" ).replace( /</g, "&lt;" ).replace( />/g, "&gt;" ).replace( /"/g, "&quot;" ).replace( /'/g, "&#039;" );
         if ( !isSuccess ) {
           output = "<a name='"+testNo+"-"+assertNo+"'><span style='color:red'>"+output+"</span></a>";
           errorFragments[errorFragments.length] = testNo+"-"+assertNo;
