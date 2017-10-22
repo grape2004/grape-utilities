@@ -1,3 +1,4 @@
+
 # ユーティリティ / ライブラリ
 
 
@@ -13,28 +14,31 @@ B
 : [bin](#grape-utility-string-bin)、[byteCodes](#grape-utility-string-byteCodes)、[byteLength](#grape-utility-string-byteLength)、[byteSize](#grape-utility-string-byteSize)、[bytes](#grape-utility-string-bytes)
 
 C 
-: [capitalize](#grape-utility-string-capitalize)、[casecmp](#grape-utility-string-casecmp)、[center](#grape-utility-string-center)、[charAt](#grape-utility-string-charAt)、[charCodeAt](#grape-utility-string-charCodeAt)、[chomp](#grape-utility-string-chomp)、[chop](#grape-utility-string-chop)、[cjust](#grape-utility-string-cjust)、[concat](#grape-utility-string-concat)、[count](#grape-utility-string-count)
+: [caesarCipher](#grape-utility-string-caesarCipher)、[capitalize](#grape-utility-string-capitalize)、[casecmp](#grape-utility-string-casecmp)、[center](#grape-utility-string-center)、[charAt](#grape-utility-string-charAt)、[charCodeAt](#grape-utility-string-charCodeAt)、[chomp](#grape-utility-string-chomp)、[chop](#grape-utility-string-chop)、[cjust](#grape-utility-string-cjust)、[concat](#grape-utility-string-concat)、[count](#grape-utility-string-count)
 
 D 
 : [dec](#grape-utility-string-dec)、[diff](#grape-utility-string-diff)、[diffLine](#grape-utility-string-diffLine)、[downto](#grape-utility-string-downto)
 
 E 
-: [each](#grape-utility-string-each)、[eachByte](#grape-utility-string-eachByte)、[eachChar](#grape-utility-string-eachChar)、[eachLine](#grape-utility-string-eachLine)、[escapeHtml](#grape-utility-string-escapeHtml)
+: [each](#grape-utility-string-each)、[eachByte](#grape-utility-string-eachByte)、[eachChar](#grape-utility-string-eachChar)、[eachLine](#grape-utility-string-eachLine)、[em](#grape-utility-string-em)、[en](#grape-utility-string-en)、[escapeHtml](#grape-utility-string-escapeHtml)
 
 F 
-: [fill](#grape-utility-string-fill)、[findBlock](#grape-utility-string-findBlock)、[findEmail](#grape-utility-string-findEmail)、[findIp](#grape-utility-string-findIp)、[findIp4](#grape-utility-string-findIp4)、[findIp6](#grape-utility-string-findIp6)、[findPhone](#grape-utility-string-findPhone)、[findTel](#grape-utility-string-findTel)、[findUrl](#grape-utility-string-findUrl)、[findWord](#grape-utility-string-findWord)、[float](#grape-utility-string-float)
+: [fill](#grape-utility-string-fill)、[findBlock](#grape-utility-string-findBlock)、[findEmail](#grape-utility-string-findEmail)、[findIp](#grape-utility-string-findIp)、[findIp4](#grape-utility-string-findIp4)、[findIp6](#grape-utility-string-findIp6)、[findPhone](#grape-utility-string-findPhone)、[findTel](#grape-utility-string-findTel)、[findUrl](#grape-utility-string-findUrl)、[findWord](#grape-utility-string-findWord)、[float](#grape-utility-string-float)、[formats](#grape-utility-string-formats)
 
 G 
 : [getByte](#grape-utility-string-getByte)
 
 H 
-: [hex](#grape-utility-string-hex)
+: [hex](#grape-utility-string-hex)、[hiragana](#grape-utility-string-hiragana)
 
 I 
 : [index](#grape-utility-string-index)、[insert](#grape-utility-string-insert)、[isBlank](#grape-utility-string-isBlank)、[isEmpty](#grape-utility-string-isEmpty)、[isEndWith](#grape-utility-string-isEndWith)、[isInclude](#grape-utility-string-isInclude)、[isStartWith](#grape-utility-string-isStartWith)
 
+K 
+: [kana](#grape-utility-string-kana)
+
 L 
-: [lastIndexOf](#grape-utility-string-lastIndexOf)、[left](#grape-utility-string-left)、[lines](#grape-utility-string-lines)、[ljust](#grape-utility-string-ljust)、[lstrip](#grape-utility-string-lstrip)
+: [lastIndexOf](#grape-utility-string-lastIndexOf)、[leet](#grape-utility-string-leet)、[left](#grape-utility-string-left)、[lines](#grape-utility-string-lines)、[ljust](#grape-utility-string-ljust)、[lstrip](#grape-utility-string-lstrip)
 
 M 
 : [match](#grape-utility-string-match)、[mergePath](#grape-utility-string-mergePath)、[mergeUrl](#grape-utility-string-mergeUrl)
@@ -46,13 +50,13 @@ O
 : [oct](#grape-utility-string-oct)
 
 P 
-: [padding](#grape-utility-string-padding)、[parseCsv](#grape-utility-string-parseCsv)、[parsePath](#grape-utility-string-parsePath)、[parseUrl](#grape-utility-string-parseUrl)、[partition](#grape-utility-string-partition)、[prev](#grape-utility-string-prev)
+: [padding](#grape-utility-string-padding)、[parseCsv](#grape-utility-string-parseCsv)、[parseFormula](#grape-utility-string-parseFormula)、[parsePath](#grape-utility-string-parsePath)、[parseUrl](#grape-utility-string-parseUrl)、[partition](#grape-utility-string-partition)、[plural](#grape-utility-string-plural)、[prev](#grape-utility-string-prev)
 
 R 
 : [remove](#grape-utility-string-remove)、[repeat](#grape-utility-string-repeat)、[replace](#grape-utility-string-replace)、[reverse](#grape-utility-string-reverse)、[right](#grape-utility-string-right)、[rindex](#grape-utility-string-rindex)、[rjust](#grape-utility-string-rjust)、[rpartition](#grape-utility-string-rpartition)、[rstrip](#grape-utility-string-rstrip)
 
 S 
-: [scan](#grape-utility-string-scan)、[search](#grape-utility-string-search)、[setByte](#grape-utility-string-setByte)、[similarity](#grape-utility-string-similarity)、[size](#grape-utility-string-size)、[slice](#grape-utility-string-slice)、[split](#grape-utility-string-split)、[squeeze](#grape-utility-string-squeeze)、[strip](#grape-utility-string-strip)、[substr](#grape-utility-string-substr)、[substring](#grape-utility-string-substring)、[succ](#grape-utility-string-succ)、[sum](#grape-utility-string-sum)、[swapcase](#grape-utility-string-swapcase)
+: [scan](#grape-utility-string-scan)、[search](#grape-utility-string-search)、[separate](#grape-utility-string-separate)、[setByte](#grape-utility-string-setByte)、[similarity](#grape-utility-string-similarity)、[singular](#grape-utility-string-singular)、[size](#grape-utility-string-size)、[slice](#grape-utility-string-slice)、[split](#grape-utility-string-split)、[squeeze](#grape-utility-string-squeeze)、[strip](#grape-utility-string-strip)、[substr](#grape-utility-string-substr)、[substring](#grape-utility-string-substring)、[succ](#grape-utility-string-succ)、[sum](#grape-utility-string-sum)、[swapcase](#grape-utility-string-swapcase)
 
 T 
 : [times](#grape-utility-string-times)、[toByteArray](#grape-utility-string-toByteArray)、[toF](#grape-utility-string-toF)、[toI](#grape-utility-string-toI)、[toLowerCase](#grape-utility-string-toLowerCase)、[toS](#grape-utility-string-toS)、[toString](#grape-utility-string-toString)、[toUpperCase](#grape-utility-string-toUpperCase)
@@ -75,7 +79,7 @@ G
 
 ## ダウンロード
 
-準備中
+実装中
 
 ## 使用方法（共通）
 
@@ -182,6 +186,34 @@ _本メソッドは、[byteLength](#grape-utility-string-byteLength)の別名で
 
 
 _本メソッドは、[eachByte](#grape-utility-string-eachByte)の別名です。_
+
+
+<a name="grape-utility-string-caesarCipher"></a>
+### caesarCipher
+
+
+指定の文字列を指定数だけ文字列をシフトさせ、変更して返します。（シーザー暗号）
+例えば、"A"を1シフトさせた場合には、"B"に。-1なら"Z"となります。
+変換対象は、平仮名、カタカナ（全角・半角）、数値、英字（全角・半角）、一部の記号です。
+対象外の文字はそのまま変換せずに返します。
+
+
+
+String ret = caesarCipher( String str, Number shift )
+
+
+str : 
+変換したい文字列を指定します
+
+shift : 
+シフト数を指定します
+
+ret : 
+変換後の文字列を取得します
+
+
+
+_関連：[hiragana](#grape-utility-string-hiragana)、[kana](#grape-utility-string-kana)、[en](#grape-utility-string-en)、[em](#grape-utility-string-em)、[leet](#grape-utility-string-leet)_
 
 
 <a name="grape-utility-string-capitalize"></a>
@@ -710,6 +742,54 @@ _関連：[each](#grape-utility-string-each)、[eachByte](#grape-utility-string-
 _本メソッドは、[each](#grape-utility-string-each)の別名です。_
 
 
+<a name="grape-utility-string-em"></a>
+### em
+
+
+指定の文字列を全角文字に置換して返します。
+変換対象は、カタカナ、数値、英字と一部の記号（半角）です。
+対象外の文字はそのまま変換せずに返します。
+
+
+
+String ret = em( String str )
+
+
+str : 
+変換したい文字列を指定します
+
+ret : 
+変換後の文字列を取得します
+
+
+
+_関連：[hiragana](#grape-utility-string-hiragana)、[kana](#grape-utility-string-kana)、[en](#grape-utility-string-en)、[caesarCipher](#grape-utility-string-caesarCipher)、[leet](#grape-utility-string-leet)_
+
+
+<a name="grape-utility-string-en"></a>
+### en
+
+
+指定の文字列を半角文字に置換して返します。
+変換対象は、平仮名、カタカナ、数値、英字と一部の記号（全角）です。
+対象外の文字はそのまま変換せずに返します。
+
+
+
+String ret = en( String str )
+
+
+str : 
+変換したい文字列を指定します
+
+ret : 
+変換後の文字列を取得します
+
+
+
+_関連：[hiragana](#grape-utility-string-hiragana)、[kana](#grape-utility-string-kana)、[em](#grape-utility-string-em)、[caesarCipher](#grape-utility-string-caesarCipher)、[leet](#grape-utility-string-leet)_
+
+
 <a name="grape-utility-string-escapeHtml"></a>
 ### escapeHtml
 
@@ -1012,6 +1092,140 @@ ret :
 _関連：[dec](#grape-utility-string-dec)_
 
 
+<a name="grape-utility-string-formats"></a>
+### formats
+
+
+フォーマット文字列で指定した形式に従って、指定のパラメータを置換した文字列を返します。
+フォーマット指定子の書式は以下の通りです。
+
+%[ フラグディレクティブ ][ フィールド幅 ][ . ][ 小数部フィールド幅 ]フォーマット指定子
+※ []はオプションです。
+
+フォーマット文字列中に、上記のフォーマット指定子は任意の数だけ含むことが可能で、第二引数以降に指定のパラメータによって置換されます。
+また、フォーマット文字列以外の形式の文字列は置換されずに、そのまま出力されます。
+
+例:
+
+    %d       // 整数に置換
+    %-5d     // 左寄せの5桁の整数に置換
+    %010d    // 0パディングされた10桁の整数に置換
+
+
+使用可能なフラグディレクティブは以下の通り
+<table class="type1">
+<tbody><tr><th>フラグディレクティブ</th><th>説明</th></tr>
+<tr><td>+</td><td>整数を表示する場合に符号を常に出力します。
+この時、符号はフィールド幅に含む文字列としてカウントされます</td></tr>
+<tr><td>-</td><td>出力値がフィールド幅に満たない時、出力文字の後方に空白が挿入されます。</td></tr>
+<tr><td>0</td><td>出力値がフィールド幅に満たない時、出力文字の前方に0が挿入されます。</td></tr>
+<tr><td>(半角空白)</td><td>出力値がフィールド幅に満たない時、符号と出力文字との間に空白が挿入されます。</td></tr>
+<tr><td>#</td><td>フォーマット指定子が%o、%x、%Xの時、それぞれ先頭に0または0xが付与されます。
+この時、0または0xはフィールド幅に含む文字列としてカウントされます</td></tr>
+</tbody></table>
+使用可能な指定子は以下の通り
+<table class="type1">
+<tbody><tr><th>指定子</th><th>説明</th></tr>
+<tr><td>%d</td><td>数値を10進数で出力する。パラメータが日付型だった場合には、日（01〜31）を出力する。</td></tr>
+<tr><td>%o</td><td>数値を8進数で出力する</td></tr>
+<tr><td>%x</td><td>数値を16進数（a〜fは小文字）で出力する</td></tr>
+<tr><td>%X</td><td>数値を16進数（A〜Fは大文字）で出力する</td></tr>
+<tr><td>%f</td><td>実数を出力する</td></tr>
+<tr><td>%g</td><td>実数を指数表示で出力する</td></tr>
+<tr><td>%s</td><td>文字列を出力する</td></tr>
+<tr><td>%Y</td><td>パラメータが日付型の時、西暦を出力する</td></tr>
+<tr><td>%y</td><td>パラメータが日付型の時、西暦の下2桁を出力する</td></tr>
+<tr><td>%m</td><td>パラメータが日付型の時、月（1〜12）を出力する</td></tr>
+<tr><td>%B</td><td>パラメータが日付型の時、月の名称（January、February ...）を出力する</td></tr>
+<tr><td>%b</td><td>パラメータが日付型の時、月の省略名（Jan、Feb ...）を出力する</td></tr>
+<tr><td>%j</td><td>パラメータが日付型の時、年中の通算日（1〜366）を出力する</td></tr>
+<tr><td>%w</td><td>パラメータが日付型の時、曜日を表す数（0〜6、0は日曜）を出力する</td></tr>
+<tr><td>%A</td><td>パラメータが日付型の時、曜日の名称（Sunday、Monday ...）を出力する</td></tr>
+<tr><td>%a</td><td>パラメータが日付型の時、曜日の省略名（Sun、Mon ...）を出力する</td></tr>
+<tr><td>%V</td><td>パラメータが日付型の時、ISO8601形式の暦週。
+最初の木曜日を含む週を第1週とした週を表す数（1〜53）を出力する</td></tr>
+<tr><td>%U</td><td>パラメータが日付型の時、最初の日曜日を第1週とした週を表す数（0〜53）を出力する</td></tr>
+<tr><td>%W</td><td>パラメータが日付型の時、最初の月曜日を第1週とした週を表す数（0〜53）を出力する</td></tr>
+<tr><td>%H</td><td>パラメータが時刻型の時、24時間制の時（0〜23）を出力する</td></tr>
+<tr><td>%l</td><td>パラメータが時刻型の時、12時間制の時（1〜12）を出力する</td></tr>
+<tr><td>%M</td><td>パラメータが時刻型の時、分（0〜59）を出力する</td></tr>
+<tr><td>%S</td><td>パラメータが時刻型の時、秒（0〜60、60はうるう秒）を出力する</td></tr>
+<tr><td>%N</td><td>パラメータが時刻型の時、秒の小数点以下のミリ秒（0〜999）を出力する</td></tr>
+<tr><td>%L</td><td>%Nに同じ</td></tr>
+<tr><td>%P</td><td>パラメータが時刻型の時、午前または午後（am、pm）を出力する</td></tr>
+<tr><td>%p</td><td>パラメータが時刻型の時、午前または午後（AM、PM）を出力する</td></tr>
+<tr><td>%Z</td><td>タイムゾーン（JST）を出力する</td></tr>
+<tr><td>%z</td><td>タイムゾーン。UTCからのオフセット値（09:00）を出力する</td></tr>
+<tr><td>%F</td><td>"YYYY-mm-dd"形式の日付文字列を出力する（2017-10-16）</td></tr>
+<tr><td>%D</td><td>"mm/dd/YYYY"形式の日付文字列を出力する（10/16/2017）</td></tr>
+<tr><td>%v</td><td>"b-dd-YYYY"形式の日付文字列を出力する（Oct-16-2017）</td></tr>
+<tr><td>%T</td><td>"HH:MM:SS"形式の24時間制の時刻文字列（23:48:19）を出力する</td></tr>
+<tr><td>%R</td><td>"HH:MM"形式の24時間制の時刻文字列（23:48）を出力する</td></tr>
+<tr><td>%r</td><td>"ll:MM:SS p"形式の12時間制の時刻文字列（11:53:06 AM）を出力する</td></tr>
+</tbody></table>
+
+フォーマット文字列中に記述したフォーマット指定子の数に対して、パラメータ数が不足している時、最後のパラメータ値が使いまわされます。
+逆にパラメータが多い場合には、余ったパラメータ値は無視されます。
+
+パラメータはフォーマット指定子に合わせて出力可能な形式に自動的に変換します。
+例えば、%Y（西暦を出力）に対して、パラメータが4桁以下の数値の時には、そのまま西暦を表す数値とみなして出力します。
+パラメータが5桁以上の数値である場合には、1970年1月1日 0時0分0秒を基準日とした、ミリ秒の指定とみなして日付に変換後、西暦を出力します。
+パラメータが文字列で、全て数字で構成されている場合には、数値に変換後に上記と同様の処理を行います。
+パラメータが文字列で、数字以外を含む場合には日付文字列として解析した上で、西暦を出力します。
+パラメータが日付型である場合には、日付オブジェクトから西暦を出力します。
+それ以外の形式で変換ができない場合には、本メソッドの実行は失敗し、NULLを返します。
+
+フォーマット文字列中で"%"の文字列を使用したい場合には、"%%"として%を二重に記載することでエスケープ可能です。
+
+
+
+String ret = formats( String format, String param ... )
+
+
+format : 
+フォーマット指定文字列を指定します
+
+param : 
+可変長引数。パラメータ値を指定します
+
+ret : 
+変換後の文字列を取得します
+
+または、以下の形式で引数を指定可能です。
+
+
+String ret = formats( Array format_and_params )
+
+
+format_and_params : 
+第一要素にフォーマット指定文字列、第二要素以降にパラメータ値を格納した配列を指定します
+
+ret : 
+変換後の文字列を取得します
+
+
+
+String ret = formats( String format, Array params )
+
+
+format : 
+フォーマット指定文字列を指定します
+
+params : 
+パラメータを配列で指定します
+
+ret : 
+変換後の文字列を取得します
+
+
+例：
+
+    $ustr.formats( "%sさん", "山田太郎" );
+    > "山田太郎さん"
+    $ustr.formats( "%03d / %Y", 15, ( new Date() ) );
+    > "035 / 2017"
+
+
 <a name="grape-utility-string-getByte"></a>
 ### getByte
 
@@ -1064,6 +1278,30 @@ ret :
 
 
 _関連：[bin](#grape-utility-string-bin)、[dec](#grape-utility-string-dec)、[oct](#grape-utility-string-oct)_
+
+
+<a name="grape-utility-string-hiragana"></a>
+### hiragana
+
+
+指定の文字列を平仮名に置換して返します。
+変換対象は、カタカナ（全角）です。
+対象外の文字はそのまま変換せずに返します。
+
+
+
+String ret = hiragana( String str )
+
+
+str : 
+平仮名に変換したい文字列を指定します
+
+ret : 
+変換後の文字列を取得します
+
+
+
+_関連：[kana](#grape-utility-string-kana)、[en](#grape-utility-string-en)、[em](#grape-utility-string-em)_
 
 
 <a name="grape-utility-string-index"></a>
@@ -1247,6 +1485,30 @@ ret : str
 _関連：[isInclude](#grape-utility-string-isInclude)、[isEndWith](#grape-utility-string-isEndWith)_
 
 
+<a name="grape-utility-string-kana"></a>
+### kana
+
+
+指定の文字列をカタカナに置換して返します。
+変換対象は、平仮名です。
+対象外の文字はそのまま変換せずに返します。
+
+
+
+String ret = kana( String str )
+
+
+str : 
+カタカナに変換したい文字列を指定します
+
+ret : 
+変換後の文字列を取得します
+
+
+
+_関連：[hiragana](#grape-utility-string-hiragana)、[en](#grape-utility-string-en)、[em](#grape-utility-string-em)_
+
+
 <a name="grape-utility-string-lastIndexOf"></a>
 ### lastIndexOf
 
@@ -1276,6 +1538,29 @@ ret :
 
 
 _関連：[rindex](#grape-utility-string-rindex)、[isInclude](#grape-utility-string-isInclude)、[index](#grape-utility-string-index)、[search](#grape-utility-string-search)_
+
+
+<a name="grape-utility-string-leet"></a>
+### leet
+
+
+指定の文字列をリート（所謂、ハッカー語）に変換します。
+対象となる文字列は半角英字（小文字）のみです。
+
+
+
+String ret = leet( String str )
+
+
+str : 
+変換したい文字列を指定します
+
+ret : 
+変換後の文字列を取得します
+
+
+
+_関連：[hiragana](#grape-utility-string-hiragana)、[kana](#grape-utility-string-kana)、[en](#grape-utility-string-en)、[em](#grape-utility-string-em)、[caesarCipher](#grape-utility-string-caesarCipher)_
 
 
 <a name="grape-utility-string-left"></a>
@@ -1575,6 +1860,90 @@ CSVの解析結果を2次元配列で返します。
     ]
 
 
+<a name="grape-utility-string-parseFormula"></a>
+### parseFormula
+
+
+指定の文字列（計算式）を解析し、以下のJSON形式に変換します。
+
+{ [operator] : [ Object, Object ] }
+※ Objectには後述の”価”か、上記と同様の形式のObjectが再帰的に記述されます。
+
+
+
+Object ret = parseFormula( String formula, Array operators, String tacitness_operator )
+
+
+formula : 
+変換対象の数式を指定します
+
+operators: (option) 
+演算子の文字列リストを優先順位順（高い順）で指定します（初期値・定義方法は後述）
+
+tacitness_operator: (option) 
+暗黙の演算子を指定します。（初期値は"*"）
+
+ret : 
+変換後の連想配列を返します
+
+
+operatorsを指定しない場合、以下が演算子の初期値として利用されます。
+配列のインデックス値が小さいものほど、優先度が高い演算子となります。
+2次元配列で定義した場合には、配列の1次元目は優先度を定義し、
+2次元目の配列内では、同じ優先度の演算子の文字列を記述します。
+
+    [
+    [ "sin", "cos", "tan" ],    // 最も優先度が高い（配列内の演算子は優先度が同じ）
+    [ "!", "^" ],
+    [ "%", "/" ],
+    [ "*" ],
+    [ "-", "+" ],   // 優先度が低い
+    ]
+     
+
+数式に指定可能な文字は、大きく分けて以下の３種です。
+・価
+・演算子（関数）
+・括弧
+
+空白、タブ、改行は無視されます。従い、”1 2”は、12として解釈されます。
+演算子と価について、例えば”1 + 2”という式があった場合、1や2は価。+は演算子に分類されます。
+演算子と括弧以外の文字は、価として解釈されるため、”3 * N”の様な記述の時、Nも価として扱います。
+
+”3N”の様に、価が演算子を挟まずに隣接している場合、暗黙の演算子（初期値では”*”）があるものと解釈されます。
+”3! + 1”の様に、演算子が連続している場合、”!”は”3”に対して1つの価だけを取る演算子として解釈します。
+
+数式を丸括弧で囲んだ場合には、括弧内の数式が全ての演算子に優先されます。
+また、丸括弧左に隣接して記述された演算子は、関数として解釈されます。
+例えば、”sin( 90 )”の様な記載は、関数として解釈されます。
+関数の括弧内には、通常の括弧と同様に数式を記載することが可能です。
+
+本メソッドは、演算子と関数を区別しないため、”+( 1 )”や”1 sin 2”の様な、
+一般的な数式の構文としては成立しない記述も解釈してしまう点について注意してください。
+
+数式を解釈できない場合には、NULLを返します。
+
+例：
+
+    $ustr.parseFormula( "1 + 2 =" );
+    > { "=": [ 
+    { "+": [ 
+    1, 
+    2 
+    ] }
+    ] }
+    
+    $ustr.parseFormula( "= ( X + 1 ) * 3" );
+    > { "=": [
+    { "*": [
+    { "+": [
+    X,
+    1
+    ] },
+    3
+    ] }
+    ] }
+
 <a name="grape-utility-string-parsePath"></a>
 ### parsePath
 
@@ -1685,7 +2054,34 @@ ret :
     > [ "abcdef", "", "" ]
 
 
-_関連：[rpartition](#grape-utility-string-rpartition)_
+_関連：[rpartition](#grape-utility-string-rpartition)、[separate](#grape-utility-string-separate)、[split](#grape-utility-string-split)_
+
+
+<a name="grape-utility-string-plural"></a>
+### plural
+
+
+指定の文字列を複数形にして返します。
+前提として指定の文字列は英単語の単数形である必要があります。
+ただし、本メソッドは指定の文字を英単語として認識するのではなく、
+単数形と複数形の変換ルールに従って機械的に処理するため、
+固有名詞など、複数形の存在しない文字列を指定しても、複数形への変換処理を行います。
+また、既に複数形になっている英単語を指定した場合にも同様です。
+
+
+
+String ret = plural( String str )
+
+
+str : 
+複数形に変換したい英単語文字列を指定します
+
+ret : 
+変換後の文字列を取得します
+
+
+
+_関連：[singular](#grape-utility-string-singular)_
 
 
 <a name="grape-utility-string-prev"></a>
@@ -1903,7 +2299,7 @@ ret :
     > [ "", "", "abcdef" ]
 
 
-_関連：[partition](#grape-utility-string-partition)_
+_関連：[partition](#grape-utility-string-partition)、[separate](#grape-utility-string-separate)、[split](#grape-utility-string-split)_
 
 
 <a name="grape-utility-string-rstrip"></a>
@@ -1988,6 +2384,41 @@ ret :
 _関連：[rindex](#grape-utility-string-rindex)、[isInclude](#grape-utility-string-isInclude)、[index](#grape-utility-string-index)、[lastIndexOf](#grape-utility-string-lastIndexOf)_
 
 
+<a name="grape-utility-string-separate"></a>
+### separate
+
+
+文字列を指定のフレーズで分割し、配列にして返します。
+分割する文字列も配列に含むため、分割した文字列を全て結合すれば、元の文字列と同等になります。
+
+
+
+Array ret = separate( String str, String phraze )
+
+
+str : 
+分割対象の文字列を指定します。
+
+phraze : 
+分割する文字列（正規表現文字列）を指定します。
+
+ret : 
+分割後の配列を返します
+
+
+例：
+
+    $ustr.separate( "abc123def456", "123" );
+    > [ "abc", "123", "def", "456" ]
+    
+    $ustr.separate( "abc123def", /[0-9]/ );
+    > [ "abc", "1", "2", "3", "def", "4", "5", "6" ]
+
+
+
+_関連：[partition](#grape-utility-string-partition)、[rpartition](#grape-utility-string-rpartition)、[split](#grape-utility-string-split)_
+
+
 <a name="grape-utility-string-setByte"></a>
 ### setByte
 
@@ -2057,6 +2488,32 @@ ret :
 
 
 _関連：[diff](#grape-utility-string-diff)_
+
+
+<a name="grape-utility-string-singular"></a>
+### singular
+
+
+指定の文字列を単数形にして返します。
+前提として指定の文字列は英単語の複数形である必要があります。
+ただし、本メソッドは指定の文字を英単語として認識するのではなく、
+単数形と複数形の変換ルールに従って機械的に処理するため、
+固有名詞などで、たまたま語尾に"s"が付いていた場合にも、単数形への変換処理を行います。
+
+
+
+String ret = singular( String str )
+
+
+str : 
+単数形に変換したい英単語文字列を指定します
+
+ret : 
+変換後の文字列を取得します
+
+
+
+_関連：[plural](#grape-utility-string-plural)_
 
 
 <a name="grape-utility-string-size"></a>
@@ -2129,6 +2586,10 @@ limit : (option)
 
 ret : 
 分割した文字列の配列を返します。
+
+
+
+_関連：[partition](#grape-utility-string-partition)、[rpartition](#grape-utility-string-rpartition)、[separate](#grape-utility-string-separate)_
 
 
 <a name="grape-utility-string-squeeze"></a>
@@ -2600,21 +3061,23 @@ X軸とY軸によって構成される2次元空間上の、最短ルートを�
 移動コストの計算が不要な場合には、より高速に動作する <span class="relations">[getRouteFastByDijkstra](#grape-libraries-algorithm-getRouteFastByDijkstra)</span> を使用してください。
 
 
+
 Array ret = getRouteByDijkstra( Array map, Number start_x, Number start_y, Number goal_x, Number goal_y )
+
 
 map : 
 座標空間を2次元配列で指定します。
-start_
-x : 
+
+start_x : 
 開始X座標を指定します。この場合のX座標とは1つ目の引数の2次元配列の2次元目の添え字（配列のインデックス番号）に相当します。
-start_
-y : 
+
+start_y : 
 開始Y座標を指定します。この場合のy座標とは1つ目の引数の2次元配列の1次元目の添え字（配列のインデックス番号）に相当します。
-goal_
-x : 
+
+goal_x : 
 終了X座標を指定します。座標の意味は開始X座標と同様。
-goal_
-y : 
+
+goal_y : 
 終了Y座標を指定します。座標の意味は開始Y座標と同様。
 
 ret : 
@@ -2635,21 +3098,23 @@ X軸とY軸によって構成される2次元空間上の、最短ルートを�
 そのため、より高速に処理することが可能です。
 
 
+
 Array ret = getRouteFirstByDijkstra( Array map, Number start_x, Number start_y, Number goal_x, Number goal_y )
+
 
 map : 
 座標空間を2次元配列で指定します。
-start_
-x : 
+
+start_x : 
 開始X座標を指定します。この場合のX座標とは1つ目の引数の2次元配列の2次元目の添え字に相当します。
-start_
-y : 
+
+start_y : 
 開始Y座標を指定します。この場合のy座標とは1つ目の引数の2次元配列の1次元目の添え字に相当します。
-goal_
-x : 
+
+goal_x : 
 終了X座標を指定します。座標の意味は開始X座標と同様。
-goal_
-y : 
+
+goal_y : 
 終了Y座標を指定します。座標の意味は開始Y座標と同様。
 
 ret : 
@@ -2688,11 +3153,11 @@ _関連：[getRouteByDijkstra](#grape-libraries-algorithm-getRouteByDijkstra)_
 Array ret = getRouteNodeByDijkstra( Object start_node,
 Number(or String)
 goal_id )
-start_
-node : 
+
+start_node : 
 開始位置のノードオブジェクトを指定します。
-goal_
-id : 
+
+goal_id : 
 ゴール位置のノードのIDを指定します。
 
 ret : 
@@ -2701,5 +3166,3 @@ ret :
 
 
 _関連：[getRouteByDijkstra](#grape-libraries-algorithm-getRouteByDijkstra)_
-
-
