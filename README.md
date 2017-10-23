@@ -81,6 +81,7 @@ G
 
 ## ダウンロード
 
+[Release versions](https://github.com/grape2004/grape-utilities/releases)
 
 文字列ユーティリティ ver 0.1 (2017/10/23) : [Download grape-utility-string.js](https://github.com/grape2004/grape-utilities/releases/download/ver1.0/grape-utility-string.js)
 
