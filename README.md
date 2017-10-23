@@ -9,40 +9,58 @@
 
 A 
 : [ante](#grape-utility-string-ante)
+
 B 
 : [bin](#grape-utility-string-bin)、[byteCodes](#grape-utility-string-byteCodes)、[byteLength](#grape-utility-string-byteLength)、[byteSize](#grape-utility-string-byteSize)、[bytes](#grape-utility-string-bytes)
+
 C 
 : [caesarCipher](#grape-utility-string-caesarCipher)、[capitalize](#grape-utility-string-capitalize)、[casecmp](#grape-utility-string-casecmp)、[center](#grape-utility-string-center)、[charAt](#grape-utility-string-charAt)、[charCodeAt](#grape-utility-string-charCodeAt)、[chomp](#grape-utility-string-chomp)、[chop](#grape-utility-string-chop)、[cjust](#grape-utility-string-cjust)、[concat](#grape-utility-string-concat)、[count](#grape-utility-string-count)
+
 D 
 : [dec](#grape-utility-string-dec)、[diff](#grape-utility-string-diff)、[diffLine](#grape-utility-string-diffLine)、[downto](#grape-utility-string-downto)
+
 E 
 : [each](#grape-utility-string-each)、[eachByte](#grape-utility-string-eachByte)、[eachChar](#grape-utility-string-eachChar)、[eachLine](#grape-utility-string-eachLine)、[em](#grape-utility-string-em)、[en](#grape-utility-string-en)、[escapeHtml](#grape-utility-string-escapeHtml)
+
 F 
 : [fill](#grape-utility-string-fill)、[findBlock](#grape-utility-string-findBlock)、[findEmail](#grape-utility-string-findEmail)、[findIp](#grape-utility-string-findIp)、[findIp4](#grape-utility-string-findIp4)、[findIp6](#grape-utility-string-findIp6)、[findPhone](#grape-utility-string-findPhone)、[findTel](#grape-utility-string-findTel)、[findUrl](#grape-utility-string-findUrl)、[findWord](#grape-utility-string-findWord)、[float](#grape-utility-string-float)、[formats](#grape-utility-string-formats)
+
 G 
 : [getByte](#grape-utility-string-getByte)
+
 H 
 : [hex](#grape-utility-string-hex)、[hiragana](#grape-utility-string-hiragana)
+
 I 
 : [index](#grape-utility-string-index)、[insert](#grape-utility-string-insert)、[isBlank](#grape-utility-string-isBlank)、[isEmpty](#grape-utility-string-isEmpty)、[isEndWith](#grape-utility-string-isEndWith)、[isInclude](#grape-utility-string-isInclude)、[isStartWith](#grape-utility-string-isStartWith)
+
 K 
 : [kana](#grape-utility-string-kana)
+
 L 
 : [lastIndexOf](#grape-utility-string-lastIndexOf)、[leet](#grape-utility-string-leet)、[left](#grape-utility-string-left)、[lines](#grape-utility-string-lines)、[ljust](#grape-utility-string-ljust)、[lstrip](#grape-utility-string-lstrip)
+
 M 
 : [match](#grape-utility-string-match)、[mergePath](#grape-utility-string-mergePath)、[mergeUrl](#grape-utility-string-mergeUrl)
+
 N 
 : [next](#grape-utility-string-next)
+
 O 
 : [oct](#grape-utility-string-oct)
+
 P 
 : [padding](#grape-utility-string-padding)、[parseCsv](#grape-utility-string-parseCsv)、[parseFormula](#grape-utility-string-parseFormula)、[parsePath](#grape-utility-string-parsePath)、[parseUrl](#grape-utility-string-parseUrl)、[partition](#grape-utility-string-partition)、[plural](#grape-utility-string-plural)、[prev](#grape-utility-string-prev)
+
 R 
 : [remove](#grape-utility-string-remove)、[repeat](#grape-utility-string-repeat)、[replace](#grape-utility-string-replace)、[reverse](#grape-utility-string-reverse)、[right](#grape-utility-string-right)、[rindex](#grape-utility-string-rindex)、[rjust](#grape-utility-string-rjust)、[rpartition](#grape-utility-string-rpartition)、[rstrip](#grape-utility-string-rstrip)
+
 S 
 : [scan](#grape-utility-string-scan)、[search](#grape-utility-string-search)、[separate](#grape-utility-string-separate)、[setByte](#grape-utility-string-setByte)、[similarity](#grape-utility-string-similarity)、[singular](#grape-utility-string-singular)、[size](#grape-utility-string-size)、[slice](#grape-utility-string-slice)、[split](#grape-utility-string-split)、[squeeze](#grape-utility-string-squeeze)、[strip](#grape-utility-string-strip)、[substr](#grape-utility-string-substr)、[substring](#grape-utility-string-substring)、[succ](#grape-utility-string-succ)、[sum](#grape-utility-string-sum)、[swapcase](#grape-utility-string-swapcase)
+
 T 
 : [times](#grape-utility-string-times)、[toByteArray](#grape-utility-string-toByteArray)、[toF](#grape-utility-string-toF)、[toI](#grape-utility-string-toI)、[toLowerCase](#grape-utility-string-toLowerCase)、[toS](#grape-utility-string-toS)、[toString](#grape-utility-string-toString)、[toUpperCase](#grape-utility-string-toUpperCase)
+
 U 
 : [unescapeHtml](#grape-utility-string-unescapeHtml)、[upto](#grape-utility-string-upto)
 
